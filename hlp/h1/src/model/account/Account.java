@@ -43,8 +43,8 @@ public abstract class Account {
 
 	public boolean deposit(double amount) {
 
-		if (amount < 1) {
-			log.error("Депозит не может быть меньше 1");
+		if (amount <= 0) {
+			log.error("Сумма должна быть больше 0");
 			return false;
 		}
 
@@ -53,18 +53,17 @@ public abstract class Account {
 	}
 
 	public boolean withdraw(double amount) {
-		if (amount > balance) {
-			log.error("Недостаточно средств");
+		if (amount <= 0) {
+			log.error("Сумма должна быть больше 0");
 			return false;
 		}
 
-		balance -= amount;
 		return true;
 	}
 
 	public boolean transfer(Account to, double amount) {
 
-		if (amount < 1) {
+		if (amount <= 0) {
 			log.error("Сумма должна быть больше 0");
 			return false;
 		}
