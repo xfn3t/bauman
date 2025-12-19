@@ -184,8 +184,8 @@ public class Bank implements BankService {
 		double sumDebitBalance = accounts.stream().filter(isDebitAccount).mapToDouble(Account::getBalance).sum();
 		double sumCreditBalance = accounts.stream().filter(isCreditAccount).mapToDouble(Account::getBalance).sum();
 
-		long countSuccessTransfer = transactions.stream().filter(Transaction::success).count();
-		long countFailTransfer = transactions.size() - countSuccessTransfer;
+		long countSuccessTransactions = transactions.stream().filter(Transaction::success).count();
+		long countFailTransactions = transactions.size() - countSuccessTransactions;
 
 
 		System.out.println(
@@ -193,8 +193,8 @@ public class Bank implements BankService {
 				"Всего кредитных аккаунтов: " + countCredit + "\n" +
 				"Сумма дебетовых балансов: " + sumDebitBalance + "\n" +
 				"Сумма кредитных балансов: " + sumCreditBalance + "\n" +
-				"Всего успешных переводов: " + countSuccessTransfer + "\n" +
-				"Всего безуспешных переводов: " + countFailTransfer
+				"Всего успешных операций: " + countSuccessTransactions + "\n" +
+				"Всего безуспешных операций: " + countFailTransactions
 		);
 
 	}
