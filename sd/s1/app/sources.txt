@@ -1,0 +1,5 @@
+C:\Users\Admin\Desktop\bmstu\sd\s1\app\src\main\java\ru\bmstu\sd\s1\App.java
+C:\Users\Admin\Desktop\bmstu\sd\s1\app\src\main\java\ru\bmstu\sd\s1\CommunicationSatellite.java
+C:\Users\Admin\Desktop\bmstu\sd\s1\app\src\main\java\ru\bmstu\sd\s1\ImagingSatellite.java
+C:\Users\Admin\Desktop\bmstu\sd\s1\app\src\main\java\ru\bmstu\sd\s1\Satellite.java
+C:\Users\Admin\Desktop\bmstu\sd\s1\app\src\main\java\ru\bmstu\sd\s1\SatelliteConstellation.java
