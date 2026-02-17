@@ -1,15 +1,17 @@
-package ru.bauman.tigerbank.category.service;
+package ru.bauman.tigerbank.category.service.entity.impl;
 
 import ru.bauman.tigerbank.category.entity.Category;
 import ru.bauman.tigerbank.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bauman.tigerbank.category.service.entity.CategoryEntityService;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryEntityService implements CategoryEntityServiceInterface {
+public class CategoryEntityServiceImpl implements CategoryEntityService {
 	private final CategoryRepository repository;
 
 	@Override

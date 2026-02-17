@@ -4,8 +4,8 @@ import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
-import ru.bauman.tigerbank.category.service.CategoryServiceInterface;
-import ru.bauman.tigerbank.operation.service.OperationServiceInterface;
+import ru.bauman.tigerbank.category.service.CategoryService;
+import ru.bauman.tigerbank.operation.service.OperationService;
 import ru.bauman.tigerbank.export.ExportFormat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +23,8 @@ public class ImportService {
 
 	private final List<Importer> importers;
 	private final BankAccountServiceInterface accountService;
-	private final CategoryServiceInterface categoryService;
-	private final OperationServiceInterface operationService;
+	private final CategoryService categoryService;
+	private final OperationService operationService;
 
 	@Transactional
 	public void importData(ExportFormat format, String filePath) throws Exception {

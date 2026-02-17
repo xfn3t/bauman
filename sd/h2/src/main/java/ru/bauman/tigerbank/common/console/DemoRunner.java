@@ -8,12 +8,12 @@ import ru.bauman.tigerbank.operation.entity.OperationTypeEnum;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.operation.dto.OperationTypeDto;
 import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
-import ru.bauman.tigerbank.category.service.CategoryServiceInterface;
-import ru.bauman.tigerbank.operation.service.OperationServiceInterface;
-import ru.bauman.tigerbank.analytic.AnalyticsServiceInterface;
-import ru.bauman.tigerbank.account.service.balance.BalanceRecalculationServiceInterface;
+import ru.bauman.tigerbank.category.service.CategoryService;
+import ru.bauman.tigerbank.operation.service.OperationService;
+import ru.bauman.tigerbank.analytic.AnalyticsService;
+import ru.bauman.tigerbank.account.service.balance.BalanceRecalculationService;
 import ru.bauman.tigerbank.export.ExportFormat;
-import ru.bauman.tigerbank.export.impl.ExportService;
+import ru.bauman.tigerbank.export.ExportService;
 import ru.bauman.tigerbank.importing.ImportService;
 import ru.bauman.tigerbank.common.config.statistic.StatisticServiceInterface;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +31,12 @@ import java.util.Map;
 public class DemoRunner implements CommandLineRunner {
 
 	private final BankAccountServiceInterface accountService;
-	private final CategoryServiceInterface categoryService;
-	private final OperationServiceInterface operationService;
-	private final AnalyticsServiceInterface analyticsService;
+	private final CategoryService categoryService;
+	private final OperationService operationService;
+	private final AnalyticsService analyticsService;
 	private final ExportService exportService;
 	private final ImportService importService;
-	private final BalanceRecalculationServiceInterface balanceService;
+	private final BalanceRecalculationService balanceService;
 	private final StatisticServiceInterface statisticService;
 
 	@Override

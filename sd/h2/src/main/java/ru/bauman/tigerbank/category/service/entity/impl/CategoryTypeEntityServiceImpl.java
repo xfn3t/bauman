@@ -1,14 +1,15 @@
-package ru.bauman.tigerbank.category.service;
+package ru.bauman.tigerbank.category.service.entity.impl;
 
 import ru.bauman.tigerbank.category.entity.CategoryType;
 import ru.bauman.tigerbank.category.entity.CategoryTypeEnum;
 import ru.bauman.tigerbank.category.repository.CategoryTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.bauman.tigerbank.category.service.entity.CategoryTypeEntityService;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryTypeEntityService implements CategoryTypeEntityServiceInterface {
+public class CategoryTypeEntityServiceImpl implements CategoryTypeEntityService {
 	private final CategoryTypeRepository repository;
 
 	@Override

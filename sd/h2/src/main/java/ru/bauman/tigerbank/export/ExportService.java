@@ -1,13 +1,11 @@
-package ru.bauman.tigerbank.export.impl;
+package ru.bauman.tigerbank.export;
 
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
-import ru.bauman.tigerbank.export.ExportFormat;
-import ru.bauman.tigerbank.export.Exporter;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
-import ru.bauman.tigerbank.category.service.CategoryServiceInterface;
-import ru.bauman.tigerbank.operation.service.OperationServiceInterface;
+import ru.bauman.tigerbank.category.service.CategoryService;
+import ru.bauman.tigerbank.operation.service.OperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.io.FileOutputStream;
@@ -22,8 +20,8 @@ import java.util.stream.Collectors;
 public class ExportService {
 	private final List<Exporter> exporters;
 	private final BankAccountServiceInterface accountService;
-	private final CategoryServiceInterface categoryService;
-	private final OperationServiceInterface operationService;
+	private final CategoryService categoryService;
+	private final OperationService operationService;
 
 	public void exportData(ExportFormat format, String filePath) throws Exception {
 		Exporter exporter = findExporter(format);

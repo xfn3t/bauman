@@ -16,4 +16,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
 												@Param("from") LocalDateTime from,
 												@Param("to") LocalDateTime to,
 												@Param("typeId") Long typeId);
+
+	List<Operation> findByAccountId(Long accountId);
 }
