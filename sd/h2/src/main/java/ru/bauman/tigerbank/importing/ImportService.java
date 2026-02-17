@@ -2,6 +2,7 @@ package ru.bauman.tigerbank.importing;
 
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
+import ru.bauman.tigerbank.importing.dto.ImportData;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
 import ru.bauman.tigerbank.category.service.CategoryService;
@@ -31,21 +32,21 @@ public class ImportService {
 		Importer importer = findImporter(format);
 		try (InputStream is = new FileInputStream(filePath)) {
 			ImportData data = importer.importData(is);
-			for (BankAccountDto dto : data.getAccounts()) {
+			for (BankAccountDto dto : data.accounts()) {
 				try {
 					accountService.findById(dto.id());
 				} catch (RuntimeException e) {
 					accountService.create(dto);
 				}
 			}
-			for (CategoryDto dto : data.getCategories()) {
+			for (CategoryDto dto : data.categories()) {
 				try {
 					categoryService.findById(dto.id());
 				} catch (RuntimeException e) {
 					categoryService.create(dto);
 				}
 			}
-			for (OperationDto dto : data.getOperations()) {
+			for (OperationDto dto : data.operations()) {
 				try {
 					operationService.findById(dto.id());
 				} catch (RuntimeException e) {

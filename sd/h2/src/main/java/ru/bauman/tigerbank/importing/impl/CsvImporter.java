@@ -7,7 +7,7 @@ import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
 import ru.bauman.tigerbank.category.dto.CategoryTypeDto;
 import ru.bauman.tigerbank.export.ExportFormat;
-import ru.bauman.tigerbank.importing.ImportData;
+import ru.bauman.tigerbank.importing.dto.ImportData;
 import ru.bauman.tigerbank.importing.Importer;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.operation.dto.OperationTypeDto;

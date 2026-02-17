@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
-import ru.bauman.tigerbank.importing.ImportData;
+import ru.bauman.tigerbank.importing.dto.ImportData;
 import ru.bauman.tigerbank.importing.Importer;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.export.ExportFormat;
