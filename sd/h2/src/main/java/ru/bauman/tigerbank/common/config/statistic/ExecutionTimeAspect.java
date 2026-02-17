@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ExecutionTimeAspect {
 
-	@Around("@annotation(ru.bauman.tigerbank.config.Measured)")
+	@Around("@annotation(ru.bauman.tigerbank.common.config.Measured)")
 	public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start = System.currentTimeMillis();
 		Object result = joinPoint.proceed();
