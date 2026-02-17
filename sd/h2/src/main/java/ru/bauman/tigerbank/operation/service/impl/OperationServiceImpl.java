@@ -7,7 +7,7 @@ import ru.bauman.tigerbank.operation.mapper.OperationMapper;
 import ru.bauman.tigerbank.operation.entity.Operation;
 import ru.bauman.tigerbank.operation.service.OperationService;
 import ru.bauman.tigerbank.operation.service.entity.OperationEntityService;
-import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityServiceInterface;
+import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ public class OperationServiceImpl implements OperationService {
 	private final OperationEntityService entityService;
 	private final BankAccountEntityService accountEntityService;
 	private final CategoryEntityService categoryEntityService;
-	private final OperationTypeEntityServiceInterface operationTypeEntityService;
+	private final OperationTypeEntityService operationTypeEntityService;
 	private final OperationMapper mapper;
 
 	@Override

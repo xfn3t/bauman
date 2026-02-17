@@ -5,11 +5,11 @@ import ru.bauman.tigerbank.operation.entity.OperationTypeEnum;
 import ru.bauman.tigerbank.operation.repository.OperationTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityServiceInterface;
+import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityService;
 
 @Service
 @RequiredArgsConstructor
-public class OperationTypeEntityService implements OperationTypeEntityServiceInterface {
+public class OperationTypeEntityServiceImpl implements OperationTypeEntityService {
 	private final OperationTypeRepository repository;
 
 	@Override

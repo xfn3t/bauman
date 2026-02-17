@@ -7,7 +7,7 @@ import ru.bauman.tigerbank.common.config.Measured;
 import ru.bauman.tigerbank.operation.entity.OperationTypeEnum;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import ru.bauman.tigerbank.operation.dto.OperationTypeDto;
-import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
+import ru.bauman.tigerbank.account.service.BankAccountService;
 import ru.bauman.tigerbank.category.service.CategoryService;
 import ru.bauman.tigerbank.operation.service.OperationService;
 import ru.bauman.tigerbank.analytic.AnalyticsService;
@@ -30,7 +30,7 @@ import java.util.Map;
 @Slf4j
 public class DemoRunner implements CommandLineRunner {
 
-	private final BankAccountServiceInterface accountService;
+	private final BankAccountService accountService;
 	private final CategoryService categoryService;
 	private final OperationService operationService;
 	private final AnalyticsService analyticsService;

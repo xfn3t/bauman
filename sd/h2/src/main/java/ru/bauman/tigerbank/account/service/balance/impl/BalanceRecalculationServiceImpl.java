@@ -1,13 +1,12 @@
 package ru.bauman.tigerbank.account.service.balance.impl;
 
 import ru.bauman.tigerbank.account.entity.BankAccount;
+import ru.bauman.tigerbank.account.service.balance.BalanceCalculator;
 import ru.bauman.tigerbank.account.service.balance.BalanceRecalculationService;
 import ru.bauman.tigerbank.operation.entity.Operation;
-import ru.bauman.tigerbank.operation.entity.OperationType;
-import ru.bauman.tigerbank.operation.entity.OperationTypeEnum;
 import ru.bauman.tigerbank.account.service.entity.BankAccountEntityService;
 import ru.bauman.tigerbank.operation.service.entity.OperationEntityService;
-import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityServiceInterface;
+import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,26 +19,14 @@ public class BalanceRecalculationServiceImpl implements BalanceRecalculationServ
 
 	private final BankAccountEntityService accountEntityService;
 	private final OperationEntityService operationEntityService;
-	private final OperationTypeEntityServiceInterface operationTypeEntityService;
+	private final BalanceCalculator balanceCalculator;
 
 	@Override
 	@Transactional
 	public void autoRecalc(Long accountId) {
 		BankAccount account = accountEntityService.getById(accountId);
-		OperationType incomeType = operationTypeEntityService.getByName(OperationTypeEnum.INCOME);
-		OperationType expenseType = operationTypeEntityService.getByName(OperationTypeEnum.EXPENSE);
 		List<Operation> operations = operationEntityService.findAllByAccountId(accountId);
-		BigDecimal balance = operations.stream()
-				.map(op -> {
-					if (op.getType().getId().equals(incomeType.getId())) {
-						return op.getAmount();
-					} else if (op.getType().getId().equals(expenseType.getId())) {
-						return op.getAmount().negate();
-					} else {
-						return BigDecimal.ZERO;
-					}
-				})
-				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		BigDecimal balance = balanceCalculator.calculate(operations);
 		account.setBalance(balance);
 		accountEntityService.save(account);
 	}

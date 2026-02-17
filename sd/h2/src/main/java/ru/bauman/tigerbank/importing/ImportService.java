@@ -4,7 +4,7 @@ import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
 import ru.bauman.tigerbank.importing.dto.ImportData;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
-import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
+import ru.bauman.tigerbank.account.service.BankAccountService;
 import ru.bauman.tigerbank.category.service.CategoryService;
 import ru.bauman.tigerbank.operation.service.OperationService;
 import ru.bauman.tigerbank.export.ExportFormat;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ImportService {
 
 	private final List<Importer> importers;
-	private final BankAccountServiceInterface accountService;
+	private final BankAccountService accountService;
 	private final CategoryService categoryService;
 	private final OperationService operationService;
 

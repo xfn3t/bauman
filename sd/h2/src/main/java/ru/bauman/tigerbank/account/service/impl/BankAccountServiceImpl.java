@@ -1,9 +1,9 @@
 package ru.bauman.tigerbank.account.service.impl;
 
-import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.account.mapper.BankAccountMapper;
 import ru.bauman.tigerbank.account.entity.BankAccount;
+import ru.bauman.tigerbank.account.service.BankAccountService;
 import ru.bauman.tigerbank.account.service.entity.BankAccountEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BankAccountService implements BankAccountServiceInterface {
+public class BankAccountServiceImpl implements BankAccountService {
 	private final BankAccountEntityService entityService;
 	private final BankAccountMapper mapper;
 

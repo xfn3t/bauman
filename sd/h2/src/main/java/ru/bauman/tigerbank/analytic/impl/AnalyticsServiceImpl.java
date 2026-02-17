@@ -8,7 +8,7 @@ import ru.bauman.tigerbank.operation.entity.Operation;
 import ru.bauman.tigerbank.operation.entity.OperationType;
 import ru.bauman.tigerbank.operation.entity.OperationTypeEnum;
 import ru.bauman.tigerbank.operation.service.entity.OperationEntityService;
-import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityServiceInterface;
+import ru.bauman.tigerbank.operation.service.entity.OperationTypeEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class AnalyticsServiceImpl implements AnalyticsService {
 
 	private final OperationEntityService operationEntityService;
-	private final OperationTypeEntityServiceInterface operationTypeEntityService;
+	private final OperationTypeEntityService operationTypeEntityService;
 	private final CategoryMapper categoryMapper;
 
 	@Override
@@ -46,15 +46,18 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	@Override
 	public Map<CategoryDto, BigDecimal> groupByCategory(Long accountId, LocalDateTime from, LocalDateTime to, OperationTypeEnum typeEnum) {
+
 		OperationType type = operationTypeEntityService.getByName(typeEnum);
 		List<Operation> operations = operationEntityService.findByAccountAndPeriod(accountId, from, to).stream()
 				.filter(op -> op.getType().getId().equals(type.getId()))
 				.toList();
+
 		Map<Category, BigDecimal> map = operations.stream()
 				.collect(Collectors.groupingBy(
 						Operation::getCategory,
 						Collectors.reducing(BigDecimal.ZERO, Operation::getAmount, BigDecimal::add)
 				));
+
 		return map.entrySet().stream()
 				.collect(Collectors.toMap(
 						e -> categoryMapper.toDto(e.getKey()),

@@ -3,7 +3,7 @@ package ru.bauman.tigerbank.export;
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
-import ru.bauman.tigerbank.account.service.BankAccountServiceInterface;
+import ru.bauman.tigerbank.account.service.BankAccountService;
 import ru.bauman.tigerbank.category.service.CategoryService;
 import ru.bauman.tigerbank.operation.service.OperationService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ExportService {
 	private final List<Exporter> exporters;
-	private final BankAccountServiceInterface accountService;
+	private final BankAccountService accountService;
 	private final CategoryService categoryService;
 	private final OperationService operationService;
 
