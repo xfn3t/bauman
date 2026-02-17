@@ -1,5 +1,7 @@
 package ru.bauman.tigerbank.export.impl;
 
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -12,6 +14,9 @@ import ru.bauman.tigerbank.export.ExportFormat;
 import ru.bauman.tigerbank.export.Exporter;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -22,6 +27,19 @@ public class PdfExporter implements Exporter {
 	public void export(List<BankAccountDto> accounts, List<CategoryDto> categories, List<OperationDto> operations, OutputStream output) throws Exception {
 		PdfDocument pdf = new PdfDocument(new PdfWriter(output));
 		Document document = new Document(pdf);
+
+		String PATH_TO_MAIN_FONT = "fonts/DejaVuSans.ttf";
+		try (InputStream fontStream = getClass().getClassLoader().getResourceAsStream(PATH_TO_MAIN_FONT)) {
+			if (fontStream != null) {
+				byte[] fontBytes = fontStream.readAllBytes();
+				PdfFont font = PdfFontFactory.createFont(fontBytes, "Identity-H");
+				document.setFont(font);
+			} else {
+				System.err.println("Warning: DejaVuSans font not found, using default font.");
+			}
+		} catch (IOException e) {
+			System.err.println("Failed to load DejaVuSans font: " + e.getMessage());
+		}
 
 		document.add(new Paragraph("Bank Accounts").setBold().setFontSize(14));
 		Table accountTable = new Table(UnitValue.createPercentArray(new float[]{1, 3, 2}));
