@@ -5,14 +5,13 @@ import ru.bauman.tigerbank.operation.repository.OperationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bauman.tigerbank.operation.service.entity.OperationEntityServiceInterface;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OperationEntityService implements OperationEntityServiceInterface {
+public class OperationEntityServiceImpl implements ru.bauman.tigerbank.operation.service.entity.OperationEntityService {
 	private final OperationRepository repository;
 
 	@Override
@@ -49,5 +48,10 @@ public class OperationEntityService implements OperationEntityServiceInterface {
 	@Override
 	public List<Operation> findByCategory(Long categoryId) {
 		return repository.findByCategoryId(categoryId);
+	}
+
+	@Override
+	public List<Operation> findAllByAccountId(Long accountId) {
+		return repository.findByAccountId(accountId);
 	}
 }

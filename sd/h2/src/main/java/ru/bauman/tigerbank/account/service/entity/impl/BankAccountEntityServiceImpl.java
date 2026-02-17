@@ -5,13 +5,14 @@ import ru.bauman.tigerbank.account.repository.BankAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bauman.tigerbank.account.service.entity.BankAccountEntityServiceInterface;
+import ru.bauman.tigerbank.account.service.entity.BankAccountEntityService;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BankAccountEntityService implements BankAccountEntityServiceInterface {
+public class BankAccountEntityServiceImpl implements BankAccountEntityService {
+
 	private final BankAccountRepository repository;
 
 	@Override
