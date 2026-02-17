@@ -1,14 +1,14 @@
 package ru.bauman.tigerbank.importing;
 
+import lombok.*;
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
 import ru.bauman.tigerbank.operation.dto.OperationDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImportData {
