@@ -1,5 +1,6 @@
 package ru.bauman.tigerbank.common.console;
 
+import org.springframework.context.annotation.Profile;
 import ru.bauman.tigerbank.account.dto.BankAccountDto;
 import ru.bauman.tigerbank.category.dto.CategoryDto;
 import ru.bauman.tigerbank.category.dto.CategoryTypeDto;
@@ -26,6 +27,7 @@ import java.time.LocalTime;
 import java.util.Map;
 
 @Component
+@Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
 public class DemoRunner implements CommandLineRunner {
