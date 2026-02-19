@@ -3,6 +3,7 @@ package ru.bauman.seminar.common;
 import ru.bauman.seminar.constellation.controller.dto.request.ConstellationRequest;
 import ru.bauman.seminar.constellation.entity.Constellation;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
+import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
 import ru.bauman.seminar.satellite.entity.ext.ImagingSatellite;
@@ -35,7 +36,7 @@ public class TestDataFactory {
 	public static CommunicationSatellite createCommunicationSatellite() {
 		return CommunicationSatellite.builder()
 				.name("Test Comm")
-				.batteryLevel(new BigDecimal("0.85"))
+				.energySystem(new EnergySystem(new BigDecimal("0.85")))
 				.bandwidth(new BigDecimal("500.0"))
 				.build();
 	}
@@ -43,7 +44,7 @@ public class TestDataFactory {
 	public static ImagingSatellite createImagingSatellite() {
 		return ImagingSatellite.builder()
 				.name("Test Imaging")
-				.batteryLevel(new BigDecimal("0.92"))
+				.energySystem(new EnergySystem(new BigDecimal("0.92")))
 				.resolution(new BigDecimal("2.5"))
 				.photosTaken(0)
 				.build();

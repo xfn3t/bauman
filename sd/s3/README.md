@@ -230,3 +230,15 @@ docker-compose build app
   ```bash
   ./gradlew clean
   ```
+  
+# 8. Тесты
+
+```shell
+ ./gradlew test
+```
+
+Генерация отчета JaCoCo
+
+```shell
+./gradlew test jacocoTestReport
+```

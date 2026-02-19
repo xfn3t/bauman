@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
+import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
 import ru.bauman.seminar.satellite.entity.ext.ImagingSatellite;
@@ -41,7 +42,7 @@ class SatelliteServiceImplTest {
 		CommunicationSatellite satellite = CommunicationSatellite.builder()
 				.id(1L)
 				.name("Test")
-				.batteryLevel(new BigDecimal("0.3"))
+				.energySystem(new EnergySystem(new BigDecimal("0.3")))
 				.active(false)
 				.bandwidth(new BigDecimal("500.0"))
 				.build();
@@ -67,7 +68,7 @@ class SatelliteServiceImplTest {
 		CommunicationSatellite satellite = CommunicationSatellite.builder()
 				.id(1L)
 				.name("Test")
-				.batteryLevel(new BigDecimal("0.1"))
+				.energySystem(new EnergySystem(new BigDecimal("0.1")))
 				.active(false)
 				.bandwidth(new BigDecimal("500.0"))
 				.build();
@@ -92,7 +93,7 @@ class SatelliteServiceImplTest {
 		CommunicationSatellite satellite = CommunicationSatellite.builder()
 				.id(1L)
 				.name("Test")
-				.batteryLevel(new BigDecimal("0.2"))
+				.energySystem(new EnergySystem(new BigDecimal("0.2")))
 				.active(true)
 				.bandwidth(new BigDecimal("500.0"))
 				.build();
@@ -120,7 +121,7 @@ class SatelliteServiceImplTest {
 		ImagingSatellite satellite = ImagingSatellite.builder()
 				.id(2L)
 				.name("Img")
-				.batteryLevel(new BigDecimal("0.9"))
+				.energySystem(new EnergySystem(new BigDecimal("0.9")))
 				.active(true)
 				.resolution(new BigDecimal("2.5"))
 				.photosTaken(0)
