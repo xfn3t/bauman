@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
 import ru.bauman.seminar.satellite.creator.SatelliteCreator;
+import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.Satellite;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import ru.bauman.seminar.satellite.mapper.SatelliteMapper;
@@ -86,7 +87,7 @@ public class SatelliteServiceImpl implements SatelliteService {
 			throw new IllegalArgumentException("Нельзя изменить тип спутника");
 		}
 		satellite.setName(request.name());
-		satellite.setBatteryLevel(request.batteryLevel().setScale(2, RoundingMode.HALF_UP));
+		satellite.setEnergySystem(new EnergySystem(request.batteryLevel()));
 
 		SatelliteUpdater updater = updaters.get(request.type());
 		if (updater == null) {

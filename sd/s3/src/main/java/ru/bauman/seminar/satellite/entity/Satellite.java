@@ -3,6 +3,7 @@ package ru.bauman.seminar.satellite.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
 import ru.bauman.seminar.constellation.entity.Constellation;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@Slf4j
 public abstract class Satellite {
 
 	@Id
@@ -28,9 +30,6 @@ public abstract class Satellite {
 
 	@Column(nullable = false, unique = true)
 	private String name;
-
-	@Column(nullable = false)
-	private BigDecimal batteryLevel;
 
 	@Column(nullable = false)
 	@Builder.Default
@@ -46,6 +45,9 @@ public abstract class Satellite {
 
 	private LocalDateTime updatedAt;
 
+	@Embedded
+	private EnergySystem energySystem;
+
 	@PreUpdate
 	protected void onUpdate() {
 		updatedAt = LocalDateTime.now();
@@ -54,4 +56,16 @@ public abstract class Satellite {
 	public abstract void performMission();
 
 	public abstract SatelliteType getType();
+
+	public BigDecimal getBatteryLevel() {
+		return energySystem.getBatteryLevel();
+	}
+
+	protected void consumeBattery(BigDecimal amount) {
+		energySystem.consume(amount);
+		if (energySystem.isCritical()) {
+			setActive(false);
+			log.warn("⚠️ {}: Критический заряд, деактивация", getName());
+		}
+	}
 }

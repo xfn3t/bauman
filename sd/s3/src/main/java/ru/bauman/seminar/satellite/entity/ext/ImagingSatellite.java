@@ -42,17 +42,10 @@ public class ImagingSatellite extends Satellite {
 	@Override
 	public void performMission() {
 		if (Boolean.TRUE.equals(getActive())) {
-			BigDecimal newBattery = getBatteryLevel().subtract(ENERGY_CONSUMPTION)
-					.max(BigDecimal.ZERO)
-					.setScale(2, RoundingMode.HALF_UP);
-			setBatteryLevel(newBattery);
 			photosTaken++;
 			log.info("{}: Съёмка, разрешение {} м/пиксель, снимков: {}",
 					getName(), resolution, photosTaken);
-			if (getBatteryLevel().compareTo(CRITICAL_BATTERY_THRESHOLD) <= 0) {
-				setActive(false);
-				log.warn("⚠️ {}: Критический заряд, деактивация", getName());
-			}
+			consumeBattery(ENERGY_CONSUMPTION);
 		} else {
 			log.info("🛑 {}: Неактивен, миссия невозможна", getName());
 		}

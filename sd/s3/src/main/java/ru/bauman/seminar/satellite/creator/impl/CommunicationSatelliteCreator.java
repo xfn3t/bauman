@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.creator.SatelliteCreator;
+import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
 import ru.bauman.seminar.satellite.entity.Satellite;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
@@ -23,7 +24,7 @@ public class CommunicationSatelliteCreator implements SatelliteCreator {
 	public Satellite create(SatelliteRequest request) {
 		return CommunicationSatellite.builder()
 				.name(request.name())
-				.batteryLevel(request.batteryLevel().setScale(2, RoundingMode.HALF_UP))
+				.energySystem(new EnergySystem(request.batteryLevel()))
 				.active(false)
 				.bandwidth(request.bandwidth())
 				.build();
