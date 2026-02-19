@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.2.0"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("jacoco")
 }
 
 group = "ru.bauman.seminar"
@@ -45,6 +46,7 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers:1.19.3")
 	testImplementation("org.testcontainers:postgresql:1.19.3")
 	testImplementation("org.testcontainers:junit-jupiter:1.19.3")
+	testImplementation("com.h2database:h2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -64,4 +66,17 @@ tasks.withType<JavaExec> {
 tasks.bootRun {
 	systemProperty("spring.profiles.active", "local")
 	systemProperty("file.encoding", "UTF-8")
+}
+
+tasks.test {
+	finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+	reports {
+		xml.required.set(false)
+		csv.required.set(false)
+		html.required.set(true)
+	}
 }
