@@ -31,9 +31,10 @@ public abstract class Satellite {
 	@Column(nullable = false, unique = true)
 	private String name;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	@Builder.Default
-	private Boolean active = false;
+	private SatelliteState state = SatelliteState.INACTIVE;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "constellation_id")
@@ -61,11 +62,28 @@ public abstract class Satellite {
 		return energySystem.getBatteryLevel();
 	}
 
+	public boolean activate() {
+		if (state == SatelliteState.ACTIVE) {
+			return false;
+		}
+		if (energySystem.hasSufficientCharge()) {
+			state = SatelliteState.ACTIVE;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deactivate() {
+		if (state == SatelliteState.INACTIVE) return false;
+		state = SatelliteState.INACTIVE;
+		return true;
+	}
+
 	protected void consumeBattery(BigDecimal amount) {
 		energySystem.consume(amount);
 		if (energySystem.isCritical()) {
-			setActive(false);
-			log.warn("⚠️ {}: Критический заряд, деактивация", getName());
+			state = SatelliteState.CRITICAL;
+			log.warn("⚠️ {}: Критический заряд, состояние CRITICAL", getName());
 		}
 	}
 }

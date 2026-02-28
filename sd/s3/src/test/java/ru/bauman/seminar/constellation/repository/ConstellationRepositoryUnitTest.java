@@ -1,27 +1,37 @@
 package ru.bauman.seminar.constellation.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import ru.bauman.seminar.common.BaseIntegrationTest;
 import ru.bauman.seminar.constellation.entity.Constellation;
 import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@ActiveProfiles("test")
-@DisplayName("Юнит-тесты для ConstellationRepository (срезовые)")
-class ConstellationRepositoryUnitTest {
+@DisplayName("Интеграционные тесты для ConstellationRepository")
+@Transactional
+class ConstellationRepositoryUnitTest extends BaseIntegrationTest {
 
 	@Autowired
 	private ConstellationRepository constellationRepository;
+
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	@BeforeEach
+	void setUp() {
+		constellationRepository.deleteAll();
+	}
 
 	@Test
 	@DisplayName("Сохранение и поиск по ID")
@@ -76,13 +86,16 @@ class ConstellationRepositoryUnitTest {
 
 		CommunicationSatellite satellite = CommunicationSatellite.builder()
 				.name("Comm")
-				.energySystem(new EnergySystem(BigDecimal.valueOf(0.8)))
+				.energySystem(EnergySystem.builder().batteryLevel(new BigDecimal("0.8")).build())
 				.bandwidth(BigDecimal.valueOf(500))
 				.constellation(constellation)
 				.build();
 
 		constellation.getSatellites().add(satellite);
 		constellationRepository.save(constellation);
+
+		entityManager.flush();
+		entityManager.clear();
 
 		List<Constellation> allWithSats = constellationRepository.findAllWithSatellites();
 		assertThat(allWithSats).hasSize(1);

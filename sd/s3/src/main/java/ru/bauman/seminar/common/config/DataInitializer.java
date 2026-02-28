@@ -31,8 +31,12 @@ public class DataInitializer {
 
 		log.info("Инициализация тестовых данных...");
 		try {
-			var orbit1 = constellationService.create(new ConstellationRequest("Орбита-1", "Основная группировка связи"));
-			var orbit2 = constellationService.create(new ConstellationRequest("Орбита-2", "Резервная группировка"));
+			var orbit1 = constellationService.create(
+					new ConstellationRequest("Орбита-1", "Основная группировка связи")
+			);
+			var orbit2 = constellationService.create(
+					new ConstellationRequest("Орбита-2", "Резервная группировка")
+			);
 
 			constellationService.addSatellite(orbit1.id(),
 					new SatelliteRequest("Связь-1", BigDecimal.valueOf(0.85), SatelliteType.COMMUNICATION,

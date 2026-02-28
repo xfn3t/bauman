@@ -97,10 +97,10 @@ public class Seminar3Application {
 			log.info("  Спутники:");
 			c.satellites().forEach(s -> {
 				StringBuilder sb = new StringBuilder();
-				sb.append(String.format("    - %s (id=%d, тип=%s, заряд=%.0f%%, активен=%s",
+				sb.append(String.format("    - %s (id=%d, тип=%s, заряд=%.0f%%, состояние=%s",
 						s.name(), s.id(), s.type(),
 						s.batteryLevel().multiply(BigDecimal.valueOf(100)),
-						s.active()));
+						s.state()));
 				if (s.bandwidth() != null) {
 					sb.append(String.format(", пропускная способность=%.1f Мбит/с", s.bandwidth()));
 				}

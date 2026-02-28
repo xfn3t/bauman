@@ -17,15 +17,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Мок-тесты для ConstellationEntityService")
-public  class ConstellationRepositoryMockTest {
+public class ConstellationRepositoryMockTest {
 
 	@Mock
 	private ConstellationRepository constellationRepository;
@@ -39,11 +35,12 @@ public  class ConstellationRepositoryMockTest {
 
 	@BeforeEach
 	void setUp() {
+		// Создаём объект без ID, затем устанавливаем ID через сеттер
 		testConstellation = Constellation.builder()
-				.id(1L)
 				.name(CONST_NAME)
 				.description(CONST_DESC)
 				.build();
+		testConstellation.setId(1L);
 	}
 
 	@Test
@@ -142,16 +139,16 @@ public  class ConstellationRepositoryMockTest {
 	@DisplayName("save должен обновлять существующую группировку при смене имени на уникальное")
 	void save_UpdateConstellation_Success() {
 		Constellation existing = Constellation.builder()
-				.id(1L)
 				.name("OldName")
 				.description("OldDesc")
 				.build();
+		existing.setId(1L);
 
 		Constellation updated = Constellation.builder()
-				.id(1L)
 				.name("NewName")
 				.description("NewDesc")
 				.build();
+		updated.setId(1L);
 
 		when(constellationRepository.findById(1L)).thenReturn(Optional.of(existing));
 		when(constellationRepository.existsByName("NewName")).thenReturn(false);
@@ -170,14 +167,14 @@ public  class ConstellationRepositoryMockTest {
 	@DisplayName("save должен бросать исключение при обновлении, если новое имя уже занято другой группировкой")
 	void save_UpdateWithDuplicateName_ThrowsIllegalArgumentException() {
 		Constellation existing = Constellation.builder()
-				.id(1L)
 				.name("OldName")
 				.build();
+		existing.setId(1L);
 
 		Constellation updated = Constellation.builder()
-				.id(1L)
 				.name("DuplicateName")
 				.build();
+		updated.setId(1L);
 
 		when(constellationRepository.findById(1L)).thenReturn(Optional.of(existing));
 		when(constellationRepository.existsByName("DuplicateName")).thenReturn(true);

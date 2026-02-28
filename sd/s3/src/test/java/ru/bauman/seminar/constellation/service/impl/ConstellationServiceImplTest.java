@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.bauman.seminar.common.exception.EntityNotFoundException;
 import ru.bauman.seminar.constellation.controller.dto.request.ConstellationRequest;
 import ru.bauman.seminar.constellation.controller.dto.response.ConstellationResponse;
+import ru.bauman.seminar.constellation.creator.ConstellationFactory;
 import ru.bauman.seminar.constellation.entity.Constellation;
 import ru.bauman.seminar.constellation.mapper.ConstellationMapper;
 import ru.bauman.seminar.constellation.mapper.ConstellationStatusMapper;
@@ -36,6 +37,9 @@ class ConstellationServiceImplTest {
 	private ConstellationEntityService constellationEntityService;
 
 	@Mock
+	private ConstellationFactory constellationFactory;
+
+	@Mock
 	private SatelliteService satelliteService;
 
 	@Mock
@@ -55,10 +59,10 @@ class ConstellationServiceImplTest {
 	@BeforeEach
 	void setUp() {
 		constellation = Constellation.builder()
-				.id(CONSTELLATION_ID)
 				.name(CONSTELLATION_NAME)
 				.description("Desc")
 				.build();
+		constellation.setId(CONSTELLATION_ID);
 
 		constellationResponse = new ConstellationResponse(
 				CONSTELLATION_ID, CONSTELLATION_NAME, "Desc", List.of()
@@ -82,17 +86,27 @@ class ConstellationServiceImplTest {
 	@DisplayName("create создаёт новую группировку")
 	void create_ShouldSaveAndReturnConstellation() {
 		ConstellationRequest request = new ConstellationRequest("New", "NewDesc");
-		Constellation newConstellation = Constellation.builder().name("New").description("NewDesc").build();
-		Constellation savedConstellation = Constellation.builder().id(2L).name("New").description("NewDesc").build();
+		Constellation newConstellation = Constellation.builder()
+				.name("New")
+				.description("NewDesc")
+				.build();
+		Constellation savedConstellation = Constellation.builder()
+				.name("New")
+				.description("NewDesc")
+				.build();
+		savedConstellation.setId(2L);
+
 		ConstellationResponse expectedResponse = new ConstellationResponse(2L, "New", "NewDesc", List.of());
 
-		when(constellationMapper.toEntity(request)).thenReturn(newConstellation);
+		when(constellationFactory.createConstellation(request.name(), request.description()))
+				.thenReturn(newConstellation);
 		when(constellationEntityService.save(newConstellation)).thenReturn(savedConstellation);
 		when(constellationMapper.toResponse(savedConstellation)).thenReturn(expectedResponse);
 
 		ConstellationResponse result = constellationService.create(request);
 
 		assertThat(result).isEqualTo(expectedResponse);
+		verify(constellationFactory).createConstellation(request.name(), request.description());
 		verify(constellationEntityService).save(newConstellation);
 	}
 
@@ -104,11 +118,14 @@ class ConstellationServiceImplTest {
 				BigDecimal.valueOf(500), null
 		);
 		Satellite satellite = mock(Satellite.class);
+
 		Constellation constellationWithSatellites = Constellation.builder()
-				.id(CONSTELLATION_ID)
 				.name(CONSTELLATION_NAME)
-				.satellites(List.of(satellite))
+				.description("Desc")
 				.build();
+		constellationWithSatellites.setId(CONSTELLATION_ID);
+		constellationWithSatellites.getSatellites().add(satellite);
+
 		ConstellationResponse expectedResponse = new ConstellationResponse(
 				CONSTELLATION_ID, CONSTELLATION_NAME, "Desc",
 				List.of(mock(SatelliteResponse.class))
@@ -136,10 +153,11 @@ class ConstellationServiceImplTest {
 		constellation.getSatellites().add(satellite);
 
 		Constellation constellationAfterRemoval = Constellation.builder()
-				.id(CONSTELLATION_ID)
 				.name(CONSTELLATION_NAME)
-				.satellites(List.of())
+				.description("Desc")
 				.build();
+		constellationAfterRemoval.setId(CONSTELLATION_ID);
+
 		ConstellationResponse expectedResponse = new ConstellationResponse(
 				CONSTELLATION_ID, CONSTELLATION_NAME, "Desc", List.of()
 		);

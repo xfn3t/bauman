@@ -1,6 +1,7 @@
 package ru.bauman.seminar.satellite.controller.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import java.math.BigDecimal;
 
@@ -14,8 +15,8 @@ public record SatelliteResponse(
 		@Schema(description = "Уровень заряда батареи", example = "0.85")
 		BigDecimal batteryLevel,
 
-		@Schema(description = "Флаг активности спутника", example = "true")
-		Boolean active,
+		@Schema(description = "Состояние спутника")
+		SatelliteState state,
 
 		@Schema(description = "Тип спутника")
 		SatelliteType type,

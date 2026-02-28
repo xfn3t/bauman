@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.bauman.seminar.common.BaseIntegrationTest;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import ru.bauman.seminar.satellite.repository.SatelliteRepository;
 
@@ -75,7 +76,7 @@ class SatelliteIntegrationTest extends BaseIntegrationTest {
 
 		assertThat(activateResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(activateResponse.getBody()).isNotNull();
-		assertThat(activateResponse.getBody().active()).isTrue();
+		assertThat(activateResponse.getBody().state()).isEqualTo(SatelliteState.ACTIVE);
 	}
 
 	@Test
@@ -91,6 +92,7 @@ class SatelliteIntegrationTest extends BaseIntegrationTest {
 
 		assertThat(activateResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(activateResponse.getBody()).isNotNull();
-		assertThat(activateResponse.getBody().active()).isFalse();
+		// При низком заряде активация не происходит, состояние остаётся INACTIVE
+		assertThat(activateResponse.getBody().state()).isEqualTo(SatelliteState.INACTIVE);
 	}
 }

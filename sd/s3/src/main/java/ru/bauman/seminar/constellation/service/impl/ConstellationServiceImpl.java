@@ -8,6 +8,7 @@ import ru.bauman.seminar.common.exception.EntityNotFoundException;
 import ru.bauman.seminar.constellation.controller.dto.request.ConstellationRequest;
 import ru.bauman.seminar.constellation.controller.dto.response.ConstellationResponse;
 import ru.bauman.seminar.constellation.controller.dto.response.ConstellationStatusDto;
+import ru.bauman.seminar.constellation.creator.ConstellationFactory;
 import ru.bauman.seminar.constellation.entity.Constellation;
 import ru.bauman.seminar.constellation.mapper.ConstellationMapper;
 import ru.bauman.seminar.constellation.mapper.ConstellationStatusMapper;
@@ -26,6 +27,7 @@ import java.util.List;
 public class ConstellationServiceImpl implements ConstellationService {
 
 	private final ConstellationEntityService constellationEntityService;
+	private final ConstellationFactory constellationFactory;
 	private final SatelliteService satelliteService;
 	private final ConstellationMapper constellationMapper;
 	private final ConstellationStatusMapper constellationStatusMapper;
@@ -54,9 +56,8 @@ public class ConstellationServiceImpl implements ConstellationService {
 	@Override
 	@Transactional
 	public ConstellationResponse create(ConstellationRequest request) {
-		Constellation constellation = constellationMapper.toEntity(request);
+		Constellation constellation = constellationFactory.createConstellation(request.name(), request.description());
 		Constellation saved = constellationEntityService.save(constellation);
-		log.info("Создана группировка: {}", saved.getName());
 		return constellationMapper.toResponse(saved);
 	}
 

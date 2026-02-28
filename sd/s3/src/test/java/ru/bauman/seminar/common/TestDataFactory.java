@@ -36,7 +36,10 @@ public class TestDataFactory {
 	public static CommunicationSatellite createCommunicationSatellite() {
 		return CommunicationSatellite.builder()
 				.name("Test Comm")
-				.energySystem(new EnergySystem(new BigDecimal("0.85")))
+				.energySystem(EnergySystem.builder()
+						.batteryLevel(new BigDecimal("0.85"))
+						.lowBatteryThreshold(new BigDecimal("0.2"))
+						.build())
 				.bandwidth(new BigDecimal("500.0"))
 				.build();
 	}
@@ -44,7 +47,7 @@ public class TestDataFactory {
 	public static ImagingSatellite createImagingSatellite() {
 		return ImagingSatellite.builder()
 				.name("Test Imaging")
-				.energySystem(new EnergySystem(new BigDecimal("0.92")))
+				.energySystem(EnergySystem.builder().batteryLevel(new BigDecimal("0.92")).build())
 				.resolution(new BigDecimal("2.5"))
 				.photosTaken(0)
 				.build();

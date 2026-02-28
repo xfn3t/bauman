@@ -8,10 +8,10 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import ru.bauman.seminar.satellite.entity.Satellite;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Entity
 @Table(name = "imaging_satellites")
@@ -25,7 +25,6 @@ import java.math.RoundingMode;
 public class ImagingSatellite extends Satellite {
 
 	private static final BigDecimal ENERGY_CONSUMPTION = new BigDecimal("0.08");
-	private static final BigDecimal CRITICAL_BATTERY_THRESHOLD = new BigDecimal("0.2");
 
 	@Column(name = "resolution")
 	private BigDecimal resolution;
@@ -41,13 +40,13 @@ public class ImagingSatellite extends Satellite {
 
 	@Override
 	public void performMission() {
-		if (Boolean.TRUE.equals(getActive())) {
+		if (getState() == SatelliteState.ACTIVE) {
 			photosTaken++;
-			log.info("{}: Съёмка, разрешение {} м/пиксель, снимков: {}",
+			log.info("📸 {}: Съемка, разрешение {} м/пиксель, снимков: {}",
 					getName(), resolution, photosTaken);
 			consumeBattery(ENERGY_CONSUMPTION);
 		} else {
-			log.info("🛑 {}: Неактивен, миссия невозможна", getName());
+			log.info("🛑 {}: Неактивен, миссия невозможна (состояние: {})", getName(), getState());
 		}
 	}
 }

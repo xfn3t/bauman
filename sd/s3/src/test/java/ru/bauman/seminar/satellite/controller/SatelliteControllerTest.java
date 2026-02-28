@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import ru.bauman.seminar.satellite.service.SatelliteService;
 
@@ -40,7 +41,7 @@ class SatelliteControllerTest {
 		);
 
 		SatelliteResponse response = new SatelliteResponse(
-				1L, "Comm-1", new BigDecimal("0.85"), false, SatelliteType.COMMUNICATION,
+				1L, "Comm-1", new BigDecimal("0.85"), SatelliteState.ACTIVE, SatelliteType.COMMUNICATION,
 				new BigDecimal("500.0"), null, 0
 		);
 
@@ -70,7 +71,7 @@ class SatelliteControllerTest {
 	@Test
 	void shouldActivateSatellite() throws Exception {
 		SatelliteResponse response = new SatelliteResponse(
-				1L, "Sat-1", new BigDecimal("0.85"), true, SatelliteType.COMMUNICATION,
+				1L, "Sat-1", new BigDecimal("0.85"), SatelliteState.ACTIVE, SatelliteType.COMMUNICATION,
 				new BigDecimal("500.0"), null, 0
 		);
 
@@ -78,13 +79,13 @@ class SatelliteControllerTest {
 
 		mockMvc.perform(post("/api/satellites/1/activate"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.active").value(true));
+				.andExpect(jsonPath("$.state").value("ACTIVE"));
 	}
 
 	@Test
 	void shouldPerformMission() throws Exception {
 		SatelliteResponse response = new SatelliteResponse(
-				1L, "Sat-1", new BigDecimal("0.77"), true, SatelliteType.COMMUNICATION,
+				1L, "Sat-1", new BigDecimal("0.77"), SatelliteState.ACTIVE, SatelliteType.COMMUNICATION,
 				new BigDecimal("500.0"), null, 0
 		);
 

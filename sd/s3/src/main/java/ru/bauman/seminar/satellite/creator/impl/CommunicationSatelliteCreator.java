@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.creator.SatelliteCreator;
 import ru.bauman.seminar.satellite.entity.EnergySystem;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
 import ru.bauman.seminar.satellite.entity.Satellite;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
@@ -24,8 +25,8 @@ public class CommunicationSatelliteCreator implements SatelliteCreator {
 	public Satellite create(SatelliteRequest request) {
 		return CommunicationSatellite.builder()
 				.name(request.name())
-				.energySystem(new EnergySystem(request.batteryLevel()))
-				.active(false)
+				.energySystem(EnergySystem.builder().batteryLevel(request.batteryLevel()).build())
+				.state(SatelliteState.INACTIVE)
 				.bandwidth(request.bandwidth())
 				.build();
 	}

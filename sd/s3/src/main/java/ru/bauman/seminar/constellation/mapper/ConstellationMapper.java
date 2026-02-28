@@ -1,5 +1,6 @@
 package ru.bauman.seminar.constellation.mapper;
 
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.bauman.seminar.constellation.controller.dto.request.ConstellationRequest;
@@ -8,7 +9,11 @@ import ru.bauman.seminar.constellation.entity.Constellation;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = ru.bauman.seminar.satellite.mapper.SatelliteMapper.class)
+@Mapper(
+		componentModel = "spring",
+		uses = ru.bauman.seminar.satellite.mapper.SatelliteMapper.class,
+		builder = @Builder(disableBuilder = true)
+)
 public interface ConstellationMapper {
 
 	@Mapping(target = "id", ignore = true)

@@ -1,7 +1,6 @@
 package ru.bauman.seminar.satellite.mapper;
 
 import org.mapstruct.*;
-import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
 import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
 import ru.bauman.seminar.satellite.entity.ext.ImagingSatellite;
@@ -13,6 +12,7 @@ import java.math.BigDecimal;
 @Mapper(componentModel = "spring")
 public interface SatelliteMapper {
 
+	@Mapping(target = "state", source = "state")
 	@Mapping(target = "type", source = "entity", qualifiedByName = "getType")
 	@Mapping(target = "bandwidth", source = "entity", qualifiedByName = "getBandwidthIfCommunication")
 	@Mapping(target = "resolution", source = "entity", qualifiedByName = "getResolutionIfImaging")
@@ -38,5 +38,4 @@ public interface SatelliteMapper {
 	default Integer getPhotosTakenIfImaging(Satellite entity) {
 		return entity instanceof ImagingSatellite i ? i.getPhotosTaken() : null;
 	}
-
 }

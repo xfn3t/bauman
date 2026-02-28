@@ -9,6 +9,7 @@ import ru.bauman.seminar.constellation.controller.dto.request.ConstellationReque
 import ru.bauman.seminar.constellation.entity.Constellation;
 import ru.bauman.seminar.constellation.service.ConstellationService;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import ru.bauman.seminar.satellite.entity.ext.ImagingSatellite;
 import ru.bauman.seminar.common.BaseIntegrationTest;
@@ -101,7 +102,7 @@ public class ConstellationRepositoryIntegrationTest extends BaseIntegrationTest 
 
 		// Активация спутников
 		var activated = constellationService.activateAllSatellites(constellationId);
-		assertThat(activated).allMatch(sat -> sat.active());
+		assertThat(activated).allMatch(sat -> sat.state() == SatelliteState.ACTIVE);
 
 		// Выполнение миссий
 		var afterMission = constellationService.executeAllMissions(constellationId);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Value;
+import ru.bauman.seminar.satellite.entity.SatelliteState;
 import ru.bauman.seminar.satellite.entity.SatelliteType;
 import java.math.BigDecimal;
 
@@ -23,8 +24,8 @@ public class SatelliteStatusDto {
 	@Schema(description = "Уровень заряда", example = "0.75")
 	BigDecimal batteryLevel;
 
-	@Schema(description = "Активен ли спутник", example = "true")
-	Boolean active;
+	@Schema(description = "Состояние спутника")
+	SatelliteState state;
 
 	@Schema(description = "Пропускная способность (только для COMMUNICATION)", example = "100.0")
 	BigDecimal bandwidth;
