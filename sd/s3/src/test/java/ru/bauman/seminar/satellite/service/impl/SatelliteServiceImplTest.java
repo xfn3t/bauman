@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.bauman.seminar.common.exception.EntityNotFoundException;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
+import ru.bauman.seminar.satellite.creator.SatelliteCreationService;
 import ru.bauman.seminar.satellite.creator.SatelliteFactory;
 import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.Satellite;
@@ -39,6 +40,9 @@ class SatelliteServiceImplTest {
 	private SatelliteFactory satelliteFactory;
 
 	@Mock
+	private SatelliteCreationService satelliteCreationService;
+
+	@Mock
 	private SatelliteMapper satelliteMapper;
 
 	private SatelliteServiceImpl satelliteService;
@@ -51,7 +55,7 @@ class SatelliteServiceImplTest {
 		);
 		satelliteService = new SatelliteServiceImpl(
 				satelliteEntityService,
-				satelliteFactory,
+				satelliteCreationService,
 				realUpdaters,
 				satelliteMapper
 		);
@@ -120,7 +124,7 @@ class SatelliteServiceImplTest {
 	}
 
 	@Test
-	void create_ShouldUseFactoryAndSave() {
+	void create_ShouldUseCreationServiceAndSave() {
 		SatelliteRequest request = new SatelliteRequest(
 				"NewComm", new BigDecimal("0.9"), SatelliteType.COMMUNICATION,
 				new BigDecimal("600.0"), null
@@ -143,14 +147,14 @@ class SatelliteServiceImplTest {
 				SatelliteType.COMMUNICATION, new BigDecimal("600.0"), null, null
 		);
 
-		when(satelliteFactory.createSatellite(request)).thenReturn(createdSatellite);
+		when(satelliteCreationService.createSatellite(any())).thenReturn(createdSatellite);
 		when(satelliteEntityService.save(createdSatellite)).thenReturn(savedSatellite);
 		when(satelliteMapper.toResponse(savedSatellite)).thenReturn(expectedResponse);
 
 		SatelliteResponse actual = satelliteService.create(request);
 
 		assertThat(actual).isEqualTo(expectedResponse);
-		verify(satelliteFactory).createSatellite(request);
+		verify(satelliteCreationService).createSatellite(any());
 		verify(satelliteEntityService).save(createdSatellite);
 	}
 
@@ -441,17 +445,18 @@ class SatelliteServiceImplTest {
 	}
 
 	@Test
-	void createEntity_ShouldDelegateToFactory() {
+	void createEntity_ShouldDelegateToCreationService() {
 		SatelliteRequest request = new SatelliteRequest(
 				"Test", new BigDecimal("0.5"), SatelliteType.COMMUNICATION,
 				new BigDecimal("100.0"), null
 		);
 		Satellite expectedSatellite = CommunicationSatellite.builder().name("Test").build();
-		when(satelliteFactory.createSatellite(request)).thenReturn(expectedSatellite);
+
+		when(satelliteCreationService.createSatellite(any())).thenReturn(expectedSatellite);
 
 		Satellite actual = satelliteService.createEntity(request);
 
 		assertThat(actual).isSameAs(expectedSatellite);
-		verify(satelliteFactory).createSatellite(request);
+		verify(satelliteCreationService).createSatellite(any());
 	}
 }

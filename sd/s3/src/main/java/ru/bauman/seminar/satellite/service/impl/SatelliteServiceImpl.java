@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
 import ru.bauman.seminar.satellite.controller.dto.response.SatelliteResponse;
-import ru.bauman.seminar.satellite.creator.SatelliteFactory;
+import ru.bauman.seminar.satellite.creator.SatelliteCreationService;
+import ru.bauman.seminar.satellite.creator.param.CommunicationSatelliteParam;
+import ru.bauman.seminar.satellite.creator.param.ImagingSatelliteParam;
+import ru.bauman.seminar.satellite.creator.param.SatelliteParam;
 import ru.bauman.seminar.satellite.entity.EnergySystem;
 import ru.bauman.seminar.satellite.entity.Satellite;
 import ru.bauman.seminar.satellite.entity.SatelliteState;
@@ -26,28 +29,27 @@ import java.util.stream.Collectors;
 public class SatelliteServiceImpl implements SatelliteService {
 
 	private final SatelliteEntityService satelliteEntityService;
-	private final SatelliteFactory satelliteFactory;
+	private final SatelliteCreationService creationService; // ← заменили SatelliteFactory
 	private final Map<SatelliteType, SatelliteUpdater> updaters;
 	private final SatelliteMapper mapper;
 
 	public SatelliteServiceImpl(
 			SatelliteEntityService satelliteEntityService,
-			SatelliteFactory satelliteFactory,
+			SatelliteCreationService creationService,
 			List<SatelliteUpdater> updaterList,
 			SatelliteMapper mapper) {
 		this.satelliteEntityService = satelliteEntityService;
-		this.satelliteFactory = satelliteFactory;
+		this.creationService = creationService;
 		this.updaters = updaterList.stream()
 				.collect(Collectors.toMap(SatelliteUpdater::getType, Function.identity()));
 		this.mapper = mapper;
 	}
 
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<SatelliteResponse> findAll() {
-		return satelliteEntityService.findAll().stream()
-				.map(mapper::toResponse)
-				.toList();
+		return satelliteEntityService.findAll().stream().map(mapper::toResponse).toList();
 	}
 
 	@Override
@@ -62,18 +64,16 @@ public class SatelliteServiceImpl implements SatelliteService {
 		return mapper.toResponse(satelliteEntityService.findByName(name));
 	}
 
-	@Override
-	@Transactional
+	@Override @Transactional
 	public SatelliteResponse create(SatelliteRequest request) {
-		Satellite satellite = satelliteFactory.createSatellite(request);
-		satellite = satelliteEntityService.save(satellite);
+		Satellite satellite = satelliteEntityService.save(createEntity(request));
 		log.info("Создан спутник: {} типа {}", satellite.getName(), satellite.getType());
 		return mapper.toResponse(satellite);
 	}
 
-	@Override
-	@Transactional
+	@Override @Transactional
 	public SatelliteResponse update(Long id, SatelliteRequest request) {
+
 		Satellite satellite = satelliteEntityService.findById(id);
 
 		if (!satellite.getType().equals(request.type())) {
@@ -82,83 +82,76 @@ public class SatelliteServiceImpl implements SatelliteService {
 
 		satellite.setName(request.name());
 
-		EnergySystem oldEnergy = satellite.getEnergySystem();
-		EnergySystem newEnergy = EnergySystem.builder()
+		EnergySystem old = satellite.getEnergySystem();
+		satellite.setEnergySystem(EnergySystem.builder()
 				.batteryLevel(request.batteryLevel())
-				.minBattery(oldEnergy.getMinBattery())
-				.maxBattery(oldEnergy.getMaxBattery())
-				.lowBatteryThreshold(oldEnergy.getLowBatteryThreshold())
-				.build();
-		satellite.setEnergySystem(newEnergy);
+				.minBattery(old.getMinBattery())
+				.maxBattery(old.getMaxBattery())
+				.lowBatteryThreshold(old.getLowBatteryThreshold())
+				.build());
 
 		SatelliteUpdater updater = updaters.get(request.type());
-		if (updater == null) {
-			throw new IllegalStateException("Не найден updater для типа " + request.type());
-		}
-		updater.update(satellite, request);
 
+		if (updater == null)
+			throw new IllegalStateException("Не найден updater для типа " + request.type());
+
+		updater.update(satellite, request);
 		satellite = satelliteEntityService.save(satellite);
+
 		log.info("Обновлен спутник: {}", satellite.getName());
 		return mapper.toResponse(satellite);
 	}
 
-	@Override
-	@Transactional
+	@Override @Transactional
 	public void delete(Long id) {
 		satelliteEntityService.delete(id);
 	}
 
-	@Override
-	@Transactional
+
+	@Override @Transactional
 	public SatelliteResponse activate(Long id) {
-		Satellite satellite = satelliteEntityService.findById(id);
-		boolean activated = satellite.activate();
-		if (activated) {
-			satellite = satelliteEntityService.save(satellite);
-			log.info("✅ {}: Активация успешна", satellite.getName());
+		Satellite s = satelliteEntityService.findById(id);
+		if (s.activate()) {
+			s = satelliteEntityService.save(s);
+			log.info("✅ {}: Активация успешна", s.getName());
 		} else {
 			log.warn("⚠️ {}: Не удалось активировать (состояние: {}, заряд: {}%)",
-					satellite.getName(),
-					satellite.getState(),
-					satellite.getBatteryLevel().multiply(BigDecimal.valueOf(100)).intValue());
+					s.getName(), s.getState(),
+					s.getBatteryLevel().multiply(BigDecimal.valueOf(100)).intValue());
 		}
-		return mapper.toResponse(satellite);
+		return mapper.toResponse(s);
 	}
 
-	@Override
-	@Transactional
+	@Override @Transactional
 	public SatelliteResponse deactivate(Long id) {
-		Satellite satellite = satelliteEntityService.findById(id);
-		boolean deactivated = satellite.deactivate();
-		if (deactivated) {
-			satellite = satelliteEntityService.save(satellite);
-			log.info("⏸️ {}: Деактивирован", satellite.getName());
-		} else {
-			log.debug("{}: уже неактивен", satellite.getName());
-		}
-		return mapper.toResponse(satellite);
+		Satellite s = satelliteEntityService.findById(id);
+		if (s.deactivate()) { s = satelliteEntityService.save(s); log.info("⏸️ {}: Деактивирован", s.getName()); }
+		return mapper.toResponse(s);
 	}
 
-	@Override
-	@Transactional
+	@Override @Transactional
 	public SatelliteResponse performMission(Long id) {
-		Satellite satellite = satelliteEntityService.findById(id);
-		satellite.performMission();
-		satelliteEntityService.save(satellite);
-		return mapper.toResponse(satellite);
+		Satellite s = satelliteEntityService.findById(id);
+		s.performMission();
+		satelliteEntityService.save(s);
+		return mapper.toResponse(s);
 	}
 
-	@Override
-	@Transactional(readOnly = true)
+	@Override @Transactional(readOnly = true)
 	public List<SatelliteResponse> findByConstellationId(Long constellationId) {
-		return satelliteEntityService.findByConstellationId(constellationId)
-				.stream()
-				.map(mapper::toResponse)
-				.toList();
+		return satelliteEntityService.findByConstellationId(constellationId).stream()
+				.map(mapper::toResponse).toList();
 	}
 
 	@Override
 	public Satellite createEntity(SatelliteRequest request) {
-		return satelliteFactory.createSatellite(request);
+		return creationService.createSatellite(toParam(request));
+	}
+
+	private static SatelliteParam toParam(SatelliteRequest r) {
+		return switch (r.type()) {
+			case COMMUNICATION -> new CommunicationSatelliteParam(r.name(), r.batteryLevel(), r.bandwidth());
+			case IMAGING       -> new ImagingSatelliteParam(r.name(), r.batteryLevel(), r.resolution());
+		};
 	}
 }
