@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bauman.seminar.common.aop.MeasureExecutionTime;
 import ru.bauman.seminar.common.exception.EntityNotFoundException;
 import ru.bauman.seminar.constellation.controller.dto.request.ConstellationRequest;
 import ru.bauman.seminar.constellation.controller.dto.response.ConstellationResponse;
@@ -34,6 +35,7 @@ public class ConstellationServiceImpl implements ConstellationService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@MeasureExecutionTime
 	public List<ConstellationResponse> findAll() {
 		List<Constellation> constellations = constellationEntityService.findAllWithSatellites();
 		return constellationMapper.toResponseList(constellations);
@@ -116,6 +118,7 @@ public class ConstellationServiceImpl implements ConstellationService {
 
 	@Override
 	@Transactional
+	@MeasureExecutionTime(operationName = "Активация всех спутников группировки")
 	public List<SatelliteResponse> activateAllSatellites(Long constellationId) {
 		Constellation constellation = constellationEntityService.findByIdWithSatellites(constellationId);
 		log.info("Активация всех спутников в группировке: {}", constellation.getName());
