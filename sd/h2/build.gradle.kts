@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.1.5"
 	id("io.spring.dependency-management") version "1.1.7"
+    kotlin("jvm")
 }
 
 group = "ru.bauman"
@@ -58,6 +59,7 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter:1.19.3")
 	testImplementation("org.testcontainers:postgresql:1.19.3")
 	testImplementation("org.assertj:assertj-core:3.24.2")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.withType<Test> {
