@@ -1,19 +1,18 @@
 package ru.bauman.mapper;
 
-import java.util.List;
-
 import ru.bauman.dto.BookDto;
 import ru.bauman.model.Book;
 
 public class BookMapper {
 
-    public static BookDto toDto(Book book) {
+    public static BookDto toDto(Book book, int totalCopies, int availableCopies) {
         return new BookDto(
                 book.getId(),
                 book.getTitle(),
                 book.getAuthor(),
                 book.getIsbn(),
-                book.isAvailable()
+                totalCopies,
+                availableCopies
         );
     }
 
@@ -22,16 +21,7 @@ public class BookMapper {
                 dto.id(),
                 dto.title(),
                 dto.author(),
-                dto.isbn(),
-                dto.available()
+                dto.isbn()
         );
-    }
-
-    public static List<BookDto> toDtoList(List<Book> books) {
-        return books.stream().map(BookMapper::toDto).toList();
-    }
-
-    public static List<Book> toEntityList(List<BookDto> dtos) {
-        return dtos.stream().map(BookMapper::toEntity).toList();
     }
 }

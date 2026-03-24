@@ -5,10 +5,11 @@ import ru.bauman.dto.LoanDto;
 import ru.bauman.model.Loan;
 
 public class LoanMapper {
+
     public static LoanDto toDto(Loan loan) {
         return new LoanDto(
                 loan.getId(),
-                loan.getBookId(),
+                loan.getBookItemId(),
                 loan.getReaderId(),
                 loan.getBorrowDate(),
                 loan.getReturnDate()
@@ -18,7 +19,7 @@ public class LoanMapper {
     public static Loan toEntity(LoanDto dto) {
         return new Loan(
                 dto.id(),
-                dto.bookId(),
+                dto.bookItemId(),
                 dto.readerId(),
                 dto.borrowDate(),
                 dto.returnDate()

@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class Loan {
     private Long id;
-    private Long bookId;
+    private Long bookItemId;
     private Long readerId;
     private Timestamp borrowDate;
     private Timestamp returnDate;
