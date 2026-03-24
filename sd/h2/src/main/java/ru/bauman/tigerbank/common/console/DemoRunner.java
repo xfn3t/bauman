@@ -1,30 +1,41 @@
 package ru.bauman.tigerbank.common.console;
 
-import org.springframework.context.annotation.Profile;
-import ru.bauman.tigerbank.account.dto.BankAccountDto;
-import ru.bauman.tigerbank.category.dto.CategoryDto;
-import ru.bauman.tigerbank.category.dto.CategoryTypeDto;
-import ru.bauman.tigerbank.common.config.Measured;
-import ru.bauman.tigerbank.operation.entity.OperationTypeEnum;
-import ru.bauman.tigerbank.operation.dto.OperationDto;
-import ru.bauman.tigerbank.operation.dto.OperationTypeDto;
-import ru.bauman.tigerbank.account.service.BankAccountService;
-import ru.bauman.tigerbank.category.service.CategoryService;
-import ru.bauman.tigerbank.operation.service.OperationService;
-import ru.bauman.tigerbank.analytic.AnalyticsService;
-import ru.bauman.tigerbank.account.service.balance.BalanceRecalculationService;
-import ru.bauman.tigerbank.export.ExportFormat;
-import ru.bauman.tigerbank.export.ExportService;
-import ru.bauman.tigerbank.importing.ImportService;
-import ru.bauman.tigerbank.common.config.statistic.StatisticServiceInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import ru.bauman.tigerbank.account.command.impl.CreateBankAccountCommand;
+import ru.bauman.tigerbank.account.command.impl.RecalcBalanceCommand;
+import ru.bauman.tigerbank.account.dto.BankAccountDto;
+import ru.bauman.tigerbank.account.facade.BankAccountFacade;
+import ru.bauman.tigerbank.analytic.command.impl.GetAnalyticsCommand;
+import ru.bauman.tigerbank.analytic.facade.AnalyticsFacade;
+import ru.bauman.tigerbank.category.command.impl.CreateCategoryCommand;
+import ru.bauman.tigerbank.category.dto.CategoryDto;
+import ru.bauman.tigerbank.category.dto.CategoryTypeDto;
+import ru.bauman.tigerbank.category.facade.CategoryFacade;
+import ru.bauman.tigerbank.common.command.CommandInvoker;
+import ru.bauman.tigerbank.common.config.Measured;
+import ru.bauman.tigerbank.common.config.statistic.StatisticServiceInterface;
+import ru.bauman.tigerbank.export.ExportFormat;
+import ru.bauman.tigerbank.export.ExportService;
+import ru.bauman.tigerbank.export.command.impl.ExportDataCommand;
+import ru.bauman.tigerbank.account.dto.CreateBankAccountRequest;
+import ru.bauman.tigerbank.category.dto.CreateCategoryRequest;
+import ru.bauman.tigerbank.importing.command.impl.ImportDataCommand;
+import ru.bauman.tigerbank.operation.command.impl.CreateOperationCommand;
+import ru.bauman.tigerbank.operation.dto.CreateOperationRequest;
+import ru.bauman.tigerbank.importing.template.AbstractImportHandler;
+import ru.bauman.tigerbank.operation.dto.OperationTypeDto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import ru.bauman.tigerbank.operation.facade.OperationFacade;
 
 @Component
 @Profile("!test")
@@ -32,81 +43,71 @@ import java.util.Map;
 @Slf4j
 public class DemoRunner implements CommandLineRunner {
 
-	private final BankAccountService accountService;
-	private final CategoryService categoryService;
-	private final OperationService operationService;
-	private final AnalyticsService analyticsService;
+	private final BankAccountFacade accountFacade;
+	private final CategoryFacade categoryFacade;
+	private final OperationFacade operationFacade;
+	private final AnalyticsFacade analyticsFacade;
+	private final CommandInvoker invoker;
 	private final ExportService exportService;
-	private final ImportService importService;
-	private final BalanceRecalculationService balanceService;
+	private final List<AbstractImportHandler> importHandlers;
 	private final StatisticServiceInterface statisticService;
 
 	@Override
 	@Measured
-	public void run(String... args) throws Exception {
-		log.info("=== Демонстрация работы модуля «Учет финансов» ТигрБанка ===");
+	public void run(String... args) {
+		log.info("=== Демонстрация ТигрБанк ===");
 
-		CategoryTypeDto incomeCatType = new CategoryTypeDto(1L, "INCOME");
-		CategoryTypeDto expenseCatType = new CategoryTypeDto(2L, "EXPENSE");
-		OperationTypeDto incomeOpType = new OperationTypeDto(1L, "INCOME");
+		CategoryTypeDto incomeType  = new CategoryTypeDto(1L, "INCOME");
+		CategoryTypeDto expenseType = new CategoryTypeDto(2L, "EXPENSE");
+		OperationTypeDto incomeOpType  = new OperationTypeDto(1L, "INCOME");
 		OperationTypeDto expenseOpType = new OperationTypeDto(2L, "EXPENSE");
 
-		BankAccountDto account = accountService.create(new BankAccountDto(null, "Основной счет", BigDecimal.ZERO));
-		log.info("Создан счет: {}", account);
+		BankAccountDto account = invoker.invoke(
+				new CreateBankAccountCommand(accountFacade,
+						new CreateBankAccountRequest("Основной счёт", BigDecimal.ZERO)));
+		log.info("Создан счёт: {}", account);
 
-		CategoryDto foodCategory = categoryService.create(new CategoryDto(null, "Еда", expenseCatType));
-		CategoryDto salaryCategory = categoryService.create(new CategoryDto(null, "Зарплата", incomeCatType));
-		log.info("Созданы категории: food={}, salary={}", foodCategory, salaryCategory);
+		CategoryDto foodCat = invoker.invoke(
+				new CreateCategoryCommand(categoryFacade, new CreateCategoryRequest("Еда", expenseType)));
+		CategoryDto salCat = invoker.invoke(
+				new CreateCategoryCommand(categoryFacade, new CreateCategoryRequest("Зарплата", incomeType)));
+		log.info("Категории: food={}, salary={}", foodCat, salCat);
 
-		OperationDto incomeOp = operationService.create(new OperationDto(
-				null,
-				BigDecimal.valueOf(100000),
-				LocalDateTime.now().minusDays(5),
-				"Зарплата за февраль",
-				incomeOpType,
-				account,
-				salaryCategory
-		));
-		OperationDto expenseOp = operationService.create(new OperationDto(
-				null,
-				BigDecimal.valueOf(3500),
-				LocalDateTime.now().minusDays(2),
-				"Ужин в ресторане",
-				expenseOpType,
-				account,
-				foodCategory
-		));
-		log.info("Добавлены операции: доход={}, расход={}", incomeOp, expenseOp);
+		invoker.invoke(new CreateOperationCommand(operationFacade,
+				new CreateOperationRequest(BigDecimal.valueOf(100_000),
+						LocalDateTime.now().minusDays(5), "Зарплата за февраль",
+						incomeOpType, account, salCat)));
+
+		invoker.invoke(new CreateOperationCommand(operationFacade,
+				new CreateOperationRequest(BigDecimal.valueOf(3_500),
+						LocalDateTime.now().minusDays(2), "Ужин в ресторане",
+						expenseOpType, account, foodCat)));
+
+		log.info("Операции добавлены");
 
 		LocalDateTime from = LocalDateTime.now().minusMonths(1).with(LocalTime.MIN);
-		LocalDateTime to = LocalDateTime.now().with(LocalTime.MAX);
-		BigDecimal diff = analyticsService.getIncomeExpenseDifference(account.id(), from, to);
-		log.info("Разница доходов/расходов за последний месяц: {}", diff);
+		LocalDateTime to   = LocalDateTime.now().with(LocalTime.MAX);
 
-		Map<CategoryDto, BigDecimal> groupedIncome = analyticsService.groupByCategory(account.id(), from, to, OperationTypeEnum.INCOME);
-		log.info("Доходы по категориям: {}", groupedIncome);
-		Map<CategoryDto, BigDecimal> groupedExpense = analyticsService.groupByCategory(account.id(), from, to, OperationTypeEnum.EXPENSE);
-		log.info("Расходы по категориям: {}", groupedExpense);
+		BigDecimal diff = invoker.invoke(new GetAnalyticsCommand(analyticsFacade, account.id(), from, to));
+		log.info("Разница доходов/расходов: {}", diff);
+		log.info("Доходы по категориям: {}",  analyticsFacade.groupIncomeByCategory(account.id(), from, to));
+		log.info("Расходы по категориям: {}", analyticsFacade.groupExpenseByCategory(account.id(), from, to));
 
-		exportService.exportData(ExportFormat.JSON, "export.json");
-		exportService.exportData(ExportFormat.CSV, "export.csv");
-		exportService.exportData(ExportFormat.YAML, "export.yaml");
-		exportService.exportData(ExportFormat.PDF, "export.pdf");
-		log.info("Экспорт завершён в файлы export.*");
-
-		try {
-			importService.importData(ExportFormat.CSV, "export.csv");
-			log.info("Импорт из CSV выполнен");
-		} catch (Exception e) {
-			log.error("Импорт не удался: {}", e.getMessage());
+		for (ExportFormat fmt : ExportFormat.values()) {
+			invoker.invoke(new ExportDataCommand(exportService, fmt, "export." + fmt.name().toLowerCase()));
 		}
+		log.info("Экспорт завершён");
 
-		balanceService.autoRecalc(account.id());
-		BankAccountDto updatedAccount = accountService.findById(account.id());
-		log.info("Баланс после авто-пересчёта: {}", updatedAccount.balance());
+		Map<ExportFormat, AbstractImportHandler> handlerMap = importHandlers.stream()
+				.collect(Collectors.toMap(AbstractImportHandler::getFormat, Function.identity()));
+
+		invoker.invoke(new ImportDataCommand(handlerMap, ExportFormat.CSV, "export.csv"));
+		log.info("Импорт из CSV выполнен");
+
+		invoker.invoke(new RecalcBalanceCommand(accountFacade, account.id()));
+		log.info("Баланс после пересчёта: {}", accountFacade.findById(account.id()).balance());
 
 		statisticService.printStatistics();
-
 		log.info("=== Демонстрация завершена ===");
 	}
 }
