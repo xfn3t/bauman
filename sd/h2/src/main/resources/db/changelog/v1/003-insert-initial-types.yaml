@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: tiger
+      changes:
+        - insert:
+            tableName: category_type
+            columns:
+              - column:
+                  name: name
+                  value: INCOME
+        - insert:
+            tableName: category_type
+            columns:
+              - column:
+                  name: name
+                  value: EXPENSE
+        - insert:
+            tableName: operation_type
+            columns:
+              - column:
+                  name: name
+                  value: INCOME
+        - insert:
+            tableName: operation_type
+            columns:
+              - column:
+                  name: name
+                  value: EXPENSE

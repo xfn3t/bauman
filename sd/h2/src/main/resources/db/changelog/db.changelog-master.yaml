@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changelog/v1/001-create-type-tables.yaml
+  - include:
+      file: classpath:db/changelog/v1/002-create-account-category-operation-tables.yaml
+  - include:
+      file: classpath:db/changelog/v1/003-insert-initial-types.yaml

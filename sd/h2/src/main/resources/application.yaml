@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: tigerbank
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
+logging:
+  level:
+    ru.bauman.tigerbank: INFO
