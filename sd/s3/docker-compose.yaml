@@ -26,11 +26,19 @@ services:
       - "8080:8080"
     env_file:
       - satellite/.env
+    environment:
+      SERVER_PORT: 8080
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - seminar-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   scheduler:
     build:
@@ -41,8 +49,13 @@ services:
       - "8081:8081"
     env_file:
       - scheduler/.env
+    environment:
+      SERVER_PORT: 8081
+      SERVER_URL: http://seminar-app:8080
     depends_on:
       postgres:
+        condition: service_healthy
+      app:
         condition: service_healthy
     networks:
       - seminar-network

@@ -42,3 +42,12 @@ logging:
   level:
     ru.bauman.scheduler: DEBUG
     feign: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always

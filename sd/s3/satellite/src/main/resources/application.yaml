@@ -24,3 +24,12 @@ spring:
 logging:
   level:
     ru.bauman.seminar: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
