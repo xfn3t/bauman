@@ -1,0 +1,2906 @@
+{
+  "info": {
+    "_postman_id": "de0c3faa-0cdd-45d8-9427-e3a375cafdc3",
+    "name": "OpenAPI definition",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54841610",
+    "_collection_link": "https://go.postman.co/collection/54841610-de0c3faa-0cdd-45d8-9427-e3a375cafdc3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "satellites",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "mission",
+                  "item": [
+                    {
+                      "name": "Выполнить миссию",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id/mission",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id",
+                            "mission"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        },
+                        "description": "Выполняет миссию спутника (фотосъёмку или передачу данных)"
+                      },
+                      "response": [
+                        {
+                          "name": "Миссия выполнена",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/mission",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "mission"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        },
+                        {
+                          "name": "Миссия не может быть выполнена (неактивен, низкий заряд)",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/mission",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "mission"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        },
+                        {
+                          "name": "Спутник не найден",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/mission",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "mission"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "deactivate",
+                  "item": [
+                    {
+                      "name": "Деактивировать спутник",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id/deactivate",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id",
+                            "deactivate"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        },
+                        "description": "Переводит спутник в неактивный режим"
+                      },
+                      "response": [
+                        {
+                          "name": "Спутник деактивирован",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/deactivate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "deactivate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        },
+                        {
+                          "name": "Спутник не найден",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/deactivate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "deactivate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "activate",
+                  "item": [
+                    {
+                      "name": "Активировать спутник",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id/activate",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id",
+                            "activate"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        },
+                        "description": "Переводит спутник в активный режим"
+                      },
+                      "response": [
+                        {
+                          "name": "Спутник активирован",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/activate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "activate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        },
+                        {
+                          "name": "Спутник не может быть активирован (например, низкий заряд)",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/activate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "activate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        },
+                        {
+                          "name": "Спутник не найден",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/:id/activate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                ":id",
+                                "activate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Получить спутник по ID",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/satellites/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "satellites",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "1",
+                          "description": "Идентификатор спутника"
+                        }
+                      ]
+                    },
+                    "description": "Возвращает данные спутника по его идентификатору"
+                  },
+                  "response": [
+                    {
+                      "name": "Спутник найден",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                    },
+                    {
+                      "name": "Спутник не найден",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Обновить спутник",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/satellites/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "satellites",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "1",
+                          "description": "Идентификатор спутника"
+                        }
+                      ]
+                    },
+                    "description": "Обновляет данные существующего спутника"
+                  },
+                  "response": [
+                    {
+                      "name": "Спутник обновлён",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                    },
+                    {
+                      "name": "Некорректные входные данные",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                    },
+                    {
+                      "name": "Спутник не найден",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Удалить спутник",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/satellites/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "satellites",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "1",
+                          "description": "Идентификатор спутника"
+                        }
+                      ]
+                    },
+                    "description": "Удаляет спутник по его идентификатору"
+                  },
+                  "response": [
+                    {
+                      "name": "Спутник удалён",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    },
+                    {
+                      "name": "Спутник не найден",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор спутника"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "by-name",
+              "item": [
+                {
+                  "name": "{name}",
+                  "item": [
+                    {
+                      "name": "Получить спутник по названию",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/satellites/by-name/:name",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "satellites",
+                            "by-name",
+                            ":name"
+                          ],
+                          "variable": [
+                            {
+                              "key": "name",
+                              "value": "Sputnik-1",
+                              "description": "Название спутника"
+                            }
+                          ]
+                        },
+                        "description": "Возвращает данные спутника по его названию"
+                      },
+                      "response": [
+                        {
+                          "name": "Спутник найден",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/by-name/:name",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                "by-name",
+                                ":name"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name",
+                                  "value": "Sputnik-1",
+                                  "description": "Название спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        },
+                        {
+                          "name": "Спутник не найден",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/satellites/by-name/:name",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "satellites",
+                                "by-name",
+                                ":name"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name",
+                                  "value": "Sputnik-1",
+                                  "description": "Название спутника"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Получить все спутники",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/satellites",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "satellites"
+                  ]
+                },
+                "description": "Возвращает список всех спутников"
+              },
+              "response": [
+                {
+                  "name": "Список спутников успешно получен",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/satellites",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "satellites"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                }
+              ]
+            },
+            {
+              "name": "Создать новый спутник",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/satellites",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "satellites"
+                  ]
+                },
+                "description": "Создаёт спутник на основе переданных данных"
+              },
+              "response": [
+                {
+                  "name": "Спутник успешно создан",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/satellites",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "satellites"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                },
+                {
+                  "name": "Некорректные входные данные",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/satellites",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "satellites"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"name\": \"Sputnik-1\",\n  \"batteryLevel\": 0.85,\n  \"state\": \"CRITICAL\",\n  \"type\": \"IMAGING\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5,\n  \"photosTaken\": 42\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "constellations",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "satellites",
+                  "item": [
+                    {
+                      "name": "{satelliteId}",
+                      "item": [
+                        {
+                          "name": "Удалить спутник из группировки",
+                          "request": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/satellites/:satelliteId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "satellites",
+                                ":satelliteId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                },
+                                {
+                                  "key": "satelliteId",
+                                  "value": "10",
+                                  "description": "Идентификатор спутника"
+                                }
+                              ]
+                            },
+                            "description": "Удаляет спутник из группировки (сам спутник тоже удаляется)"
+                          },
+                          "response": [
+                            {
+                              "name": "Спутник удалён из группировки",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "*/*"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/constellations/:id/satellites/:satelliteId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "constellations",
+                                    ":id",
+                                    "satellites",
+                                    ":satelliteId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id",
+                                      "value": "1",
+                                      "description": "Идентификатор группировки"
+                                    },
+                                    {
+                                      "key": "satelliteId",
+                                      "value": "10",
+                                      "description": "Идентификатор спутника"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "*/*"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                            },
+                            {
+                              "name": "Группировка или спутник не найдены",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "*/*"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/constellations/:id/satellites/:satelliteId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "constellations",
+                                    ":id",
+                                    "satellites",
+                                    ":satelliteId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id",
+                                      "value": "1",
+                                      "description": "Идентификатор группировки"
+                                    },
+                                    {
+                                      "key": "satelliteId",
+                                      "value": "10",
+                                      "description": "Идентификатор спутника"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "text",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "*/*"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Получить все спутники группировки",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id",
+                            "satellites"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        },
+                        "description": "Возвращает список спутников, входящих в группировку"
+                      },
+                      "response": [
+                        {
+                          "name": "Список спутников получен",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "satellites"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                        },
+                        {
+                          "name": "Группировка не найдена",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "satellites"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Добавить спутник в группировку",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id",
+                            "satellites"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        },
+                        "description": "Создаёт новый спутник и добавляет его в указанную группировку"
+                      },
+                      "response": [
+                        {
+                          "name": "Спутник добавлен",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "satellites"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                        },
+                        {
+                          "name": "Некорректные входные данные",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "satellites"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                        },
+                        {
+                          "name": "Группировка не найдена",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"batteryLevel\": 0.85,\n  \"name\": \"Sputnik-1\",\n  \"type\": \"COMMUNICATION\",\n  \"bandwidth\": 100,\n  \"resolution\": 0.5\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/satellites",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "satellites"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "execute",
+                  "item": [
+                    {
+                      "name": "Выполнить миссии всех спутников",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id/execute",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id",
+                            "execute"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        },
+                        "description": "Запускает выполнение миссии для всех активных спутников группировки"
+                      },
+                      "response": [
+                        {
+                          "name": "Миссии выполнены (где возможно)",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/execute",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "execute"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                        },
+                        {
+                          "name": "Группировка не найдена",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/execute",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "execute"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "activate",
+                  "item": [
+                    {
+                      "name": "Активировать все спутники группировки",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id/activate",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id",
+                            "activate"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        },
+                        "description": "Активирует все спутники в группировке"
+                      },
+                      "response": [
+                        {
+                          "name": "Все спутники активированы (где это возможно)",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/activate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "activate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                        },
+                        {
+                          "name": "Группировка не найдена",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/activate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "activate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"INACTIVE\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Sputnik-1\",\n    \"batteryLevel\": 0.85,\n    \"state\": \"CRITICAL\",\n    \"type\": \"IMAGING\",\n    \"bandwidth\": 100,\n    \"resolution\": 0.5,\n    \"photosTaken\": 42\n  }\n]"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "status",
+                  "item": [
+                    {
+                      "name": "Получить статус группировки",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id",
+                            "status"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        },
+                        "description": "Возвращает расширенный статус группировки с информацией о всех спутниках"
+                      },
+                      "response": [
+                        {
+                          "name": "Статус получен",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 2939,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellitesCount\": 7435,\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"type\": \"COMMUNICATION\",\n      \"batteryLevel\": 0.75,\n      \"state\": \"CRITICAL\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 10\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"type\": \"COMMUNICATION\",\n      \"batteryLevel\": 0.75,\n      \"state\": \"ACTIVE\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 10\n    }\n  ]\n}"
+                        },
+                        {
+                          "name": "Группировка не найдена",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/:id/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                ":id",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "1",
+                                  "description": "Идентификатор группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 2939,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellitesCount\": 7435,\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"type\": \"COMMUNICATION\",\n      \"batteryLevel\": 0.75,\n      \"state\": \"CRITICAL\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 10\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"type\": \"COMMUNICATION\",\n      \"batteryLevel\": 0.75,\n      \"state\": \"ACTIVE\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 10\n    }\n  ]\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Получить группировку по ID",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/constellations/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "constellations",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "1",
+                          "description": "Идентификатор группировки"
+                        }
+                      ]
+                    },
+                    "description": "Возвращает данные группировки по её идентификатору"
+                  },
+                  "response": [
+                    {
+                      "name": "Группировка найдена",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                    },
+                    {
+                      "name": "Группировка не найдена",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Обновить группировку",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/constellations/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "constellations",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "1",
+                          "description": "Идентификатор группировки"
+                        }
+                      ]
+                    },
+                    "description": "Обновляет данные существующей группировки"
+                  },
+                  "response": [
+                    {
+                      "name": "Группировка обновлена",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                    },
+                    {
+                      "name": "Некорректные входные данные",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                    },
+                    {
+                      "name": "Группировка не найдена",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Удалить группировку",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/constellations/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "constellations",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "1",
+                          "description": "Идентификатор группировки"
+                        }
+                      ]
+                    },
+                    "description": "Удаляет группировку по её идентификатору"
+                  },
+                  "response": [
+                    {
+                      "name": "Группировка удалена",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    },
+                    {
+                      "name": "Группировка не найдена",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "1",
+                              "description": "Идентификатор группировки"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "by-name",
+              "item": [
+                {
+                  "name": "{name}",
+                  "item": [
+                    {
+                      "name": "Получить группировку по названию",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/constellations/by-name/:name",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "constellations",
+                            "by-name",
+                            ":name"
+                          ],
+                          "variable": [
+                            {
+                              "key": "name",
+                              "value": "Starlink",
+                              "description": "Название группировки"
+                            }
+                          ]
+                        },
+                        "description": "Возвращает данные группировки по её названию"
+                      },
+                      "response": [
+                        {
+                          "name": "Группировка найдена",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/by-name/:name",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                "by-name",
+                                ":name"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name",
+                                  "value": "Starlink",
+                                  "description": "Название группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                        },
+                        {
+                          "name": "Группировка не найдена",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/constellations/by-name/:name",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "constellations",
+                                "by-name",
+                                ":name"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name",
+                                  "value": "Starlink",
+                                  "description": "Название группировки"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Получить все группировки",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/constellations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "constellations"
+                  ]
+                },
+                "description": "Возвращает список всех группировок"
+              },
+              "response": [
+                {
+                  "name": "Список группировок успешно получен",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/constellations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "constellations"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"id\": 3021,\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"satellites\": [\n      {\n        \"id\": 1,\n        \"name\": \"Sputnik-1\",\n        \"batteryLevel\": 0.85,\n        \"state\": \"CRITICAL\",\n        \"type\": \"IMAGING\",\n        \"bandwidth\": 100,\n        \"resolution\": 0.5,\n        \"photosTaken\": 42\n      },\n      {\n        \"id\": 1,\n        \"name\": \"Sputnik-1\",\n        \"batteryLevel\": 0.85,\n        \"state\": \"CRITICAL\",\n        \"type\": \"IMAGING\",\n        \"bandwidth\": 100,\n        \"resolution\": 0.5,\n        \"photosTaken\": 42\n      }\n    ]\n  },\n  {\n    \"id\": 5631,\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"satellites\": [\n      {\n        \"id\": 1,\n        \"name\": \"Sputnik-1\",\n        \"batteryLevel\": 0.85,\n        \"state\": \"INACTIVE\",\n        \"type\": \"IMAGING\",\n        \"bandwidth\": 100,\n        \"resolution\": 0.5,\n        \"photosTaken\": 42\n      },\n      {\n        \"id\": 1,\n        \"name\": \"Sputnik-1\",\n        \"batteryLevel\": 0.85,\n        \"state\": \"CRITICAL\",\n        \"type\": \"COMMUNICATION\",\n        \"bandwidth\": 100,\n        \"resolution\": 0.5,\n        \"photosTaken\": 42\n      }\n    ]\n  }\n]"
+                }
+              ]
+            },
+            {
+              "name": "Создать новую группировку",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/constellations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "constellations"
+                  ]
+                },
+                "description": "Создаёт группировку на основе переданных данных"
+              },
+              "response": [
+                {
+                  "name": "Группировка успешно создана",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/constellations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "constellations"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                },
+                {
+                  "name": "Некорректные входные данные",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/constellations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "constellations"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 9049,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"satellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"INACTIVE\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ]\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "missions",
+          "item": [
+            {
+              "name": "execute Mission",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"constellationName\": \"string\",\n  \"missionType\": \"IMAGING\",\n  \"activateBeforeMission\": true\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/missions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "missions"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"constellationName\": \"string\",\n  \"missionType\": \"IMAGING\",\n  \"activateBeforeMission\": true\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/missions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "missions"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"constellationName\": \"string\",\n  \"missionType\": \"ALL\",\n  \"processedSatellites\": [\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"ACTIVE\",\n      \"type\": \"COMMUNICATION\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Sputnik-1\",\n      \"batteryLevel\": 0.85,\n      \"state\": \"CRITICAL\",\n      \"type\": \"IMAGING\",\n      \"bandwidth\": 100,\n      \"resolution\": 0.5,\n      \"photosTaken\": 42\n    }\n  ],\n  \"successCount\": 1501,\n  \"skippedCount\": 873\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
