@@ -21,3 +21,7 @@ analysis:
 
 outbox:
   poll-interval-ms: 5000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs

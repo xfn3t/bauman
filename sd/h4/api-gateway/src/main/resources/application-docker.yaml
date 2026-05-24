@@ -13,6 +13,22 @@ spring:
           uri: ${ANALYSIS_SERVICE_URL}
           predicates:
             - Path=/api/v1/works/*/reports
+        - id: storing-openapi
+          uri: ${STORING_SERVICE_URL}
+          predicates:
+            - Path=/v3/api-docs/file-storing-service
+        - id: analysis-openapi
+          uri: ${ANALYSIS_SERVICE_URL}
+          predicates:
+            - Path=/v3/api-docs/file-analysis-service
 
 server:
   port: 8080
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: File Storing Service
+        url: /v3/api-docs/file-storing-service
+      - name: File Analysis Service
+        url: /v3/api-docs/file-analysis-service

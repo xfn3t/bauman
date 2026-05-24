@@ -16,6 +16,8 @@ dependencyManagement {
 
 dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-api:2.5.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

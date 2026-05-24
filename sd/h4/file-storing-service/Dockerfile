@@ -2,15 +2,22 @@ FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /workspace
 
 COPY gradlew gradlew.bat ./
-COPY gradle gradle/
+COPY gradle/wrapper gradle/wrapper
 RUN chmod +x gradlew
+
+RUN --mount=type=cache,target=/root/.gradle-storing \
+    ./gradlew --version
 
 COPY build.gradle.kts settings.gradle.kts ./
 COPY file-storing-service/build.gradle.kts file-storing-service/
-RUN ./gradlew :file-storing-service:dependencies --no-daemon
+
+RUN --mount=type=cache,target=/root/.gradle-storing \
+    ./gradlew :file-storing-service:dependencies --no-daemon
 
 COPY file-storing-service/src file-storing-service/src/
-RUN ./gradlew :file-storing-service:bootJar --no-daemon
+
+RUN --mount=type=cache,target=/root/.gradle-storing \
+    ./gradlew :file-storing-service:bootJar --no-daemon
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
