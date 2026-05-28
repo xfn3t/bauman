@@ -16,7 +16,14 @@ spring:
       ddl-auto: validate
     show-sql: false
 
+grpc:
+  client:
+    telemetry-service:
+      address: static://telemetry-service:9091
+      negotiationType: plaintext
+
 logging:
   level:
     ru.bauman.seminar: INFO
-    org.hibernate.SQL: DEBUG
+    ru.bauman.seminar.telemetry: INFO
+    # org.hibernate.SQL: DEBUG

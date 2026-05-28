@@ -1,21 +1,41 @@
 package ru.bauman.seminar.satellite.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import ru.bauman.seminar.constellation.entity.Constellation;
-import ru.bauman.seminar.satellite.controller.dto.request.SatelliteRequest;
-import ru.bauman.seminar.satellite.entity.ext.CommunicationSatellite;
-import ru.bauman.seminar.satellite.entity.ext.ImagingSatellite;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "satellites")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(
+    name = "type",
+    discriminatorType = DiscriminatorType.STRING
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,66 +44,72 @@ import java.time.LocalDateTime;
 @Slf4j
 public abstract class Satellite {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false, unique = true)
-	private String name;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	@Builder.Default
-	private SatelliteState state = SatelliteState.INACTIVE;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private SatelliteState state = SatelliteState.INACTIVE;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "constellation_id")
-	private Constellation constellation;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "constellation_id")
+    private Constellation constellation;
 
-	@Column(nullable = false, updatable = false)
-	@Builder.Default
-	private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(nullable = false, updatable = false)
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-	private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
-	@Embedded
-	private EnergySystem energySystem;
+    @Column(name = "internal_temperature")
+    private Double internalTemperature;
 
-	@PreUpdate
-	protected void onUpdate() {
-		updatedAt = LocalDateTime.now();
-	}
+    @Column(name = "external_temperature")
+    private Double externalTemperature;
 
-	public abstract void performMission();
+    @Embedded
+    private EnergySystem energySystem;
 
-	public abstract SatelliteType getType();
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
-	public BigDecimal getBatteryLevel() {
-		return energySystem.getBatteryLevel();
-	}
+    public abstract void performMission();
 
-	public boolean activate() {
-		if (state == SatelliteState.ACTIVE) {
-			return false;
-		}
-		if (energySystem.hasSufficientCharge()) {
-			state = SatelliteState.ACTIVE;
-			return true;
-		}
-		return false;
-	}
+    public abstract SatelliteType getType();
 
-	public boolean deactivate() {
-		if (state == SatelliteState.INACTIVE) return false;
-		state = SatelliteState.INACTIVE;
-		return true;
-	}
+    public BigDecimal getBatteryLevel() {
+        return energySystem.getBatteryLevel();
+    }
 
-	protected void consumeBattery(BigDecimal amount) {
-		energySystem.consume(amount);
-		if (energySystem.isCritical()) {
-			state = SatelliteState.CRITICAL;
-			log.warn("⚠️ {}: Критический заряд, состояние CRITICAL", getName());
-		}
-	}
+    public boolean activate() {
+        if (state == SatelliteState.ACTIVE) {
+            return false;
+        }
+        if (energySystem.hasSufficientCharge()) {
+            state = SatelliteState.ACTIVE;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deactivate() {
+        if (state == SatelliteState.INACTIVE) return false;
+        state = SatelliteState.INACTIVE;
+        return true;
+    }
+
+    protected void consumeBattery(BigDecimal amount) {
+        energySystem.consume(amount);
+        if (energySystem.isCritical()) {
+            state = SatelliteState.CRITICAL;
+            log.warn("⚠️ {}: Критический заряд, состояние CRITICAL", getName());
+        }
+    }
 }

@@ -1,7 +1,10 @@
+import com.google.protobuf.gradle.*
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.2.0"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("com.google.protobuf") version "0.9.4"
 	id("jacoco")
 }
 
@@ -23,10 +26,17 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 	// Database
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.liquibase:liquibase-core")
+
+	// gRPC Client
+	implementation("net.devh:grpc-client-spring-boot-starter:3.0.0.RELEASE")
+	implementation("io.grpc:grpc-protobuf:1.62.2")
+	implementation("io.grpc:grpc-stub:1.62.2")
+	compileOnly("org.apache.tomcat:annotations-api:6.0.53")
 
 	// Lombok
 	compileOnly("org.projectlombok:lombok")
@@ -48,6 +58,35 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter:1.19.3")
 	testImplementation("com.h2database:h2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:3.25.3"
+	}
+	plugins {
+		create("grpc") {
+			artifact = "io.grpc:protoc-gen-grpc-java:1.62.2"
+		}
+	}
+	generateProtoTasks {
+		all().forEach { task ->
+			task.plugins {
+				create("grpc")
+			}
+		}
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs(
+				"build/generated/source/proto/main/java",
+				"build/generated/source/proto/main/grpc"
+			)
+		}
+	}
 }
 
 tasks.withType<JavaCompile> {

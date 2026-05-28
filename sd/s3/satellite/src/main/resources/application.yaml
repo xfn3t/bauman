@@ -21,6 +21,12 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
+grpc:
+  client:
+    telemetry-service:
+      address: static://localhost:9091
+      negotiationType: plaintext
+
 logging:
   level:
     ru.bauman.seminar: INFO

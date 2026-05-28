@@ -1,0 +1,23 @@
+server:
+  port: 9092
+
+spring:
+  application:
+    name: telemetry-service
+
+grpc:
+  server:
+    port: 9091
+
+logging:
+  level:
+    ru.bauman.telemetry: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always

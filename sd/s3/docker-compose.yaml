@@ -31,6 +31,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      telemetry-service:
+        condition: service_started
     networks:
       - seminar-network
     healthcheck:
@@ -57,6 +59,17 @@ services:
         condition: service_healthy
       app:
         condition: service_healthy
+    networks:
+      - seminar-network
+
+  telemetry-service:
+    build:
+      context: ./telemetry-service
+      dockerfile: Dockerfile
+    container_name: telemetry-service
+    ports:
+      - "9091:9091"
+      - "9092:9092"
     networks:
       - seminar-network
 

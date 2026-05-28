@@ -97,4 +97,4 @@ databaseChangeLog:
               - column:
                   name: photos_taken
                   type: integer
-                  defaultValue: 0
+                  defaultValue: "0"
