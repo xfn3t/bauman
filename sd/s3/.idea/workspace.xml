@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="042fbb2e-abe7-45ab-a7fc-b4de6e44bf0e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/satellite/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/satellite/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/satellite/src/main/java/ru/bauman/seminar/satellite/entity/Satellite.java" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/src/main/java/ru/bauman/seminar/satellite/entity/Satellite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/satellite/src/main/java/ru/bauman/seminar/telemetry/TelemetryClientService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/satellite/src/main/resources/application-docker.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/src/main/resources/application-docker.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/satellite/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/satellite/src/main/resources/db/changelog/changes/002-create-satellites-table.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/src/main/resources/db/changelog/changes/002-create-satellites-table.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/satellite/src/main/resources/db/changelog/db.changelog-master.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/satellite/src/main/resources/db/changelog/db.changelog-master.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scheduler/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler/src/main/java/ru/bauman/scheduler/scheduler/ConfiguredMissionScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler/src/main/java/ru/bauman/scheduler/scheduler/ConfiguredMissionScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telemetry-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/telemetry-service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telemetry-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/telemetry-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telemetry-service/src/main/java/ru/bauman/telemetry/TelemetryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/telemetry-service/src/main/java/ru/bauman/telemetry/TelemetryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telemetry-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/telemetry-service/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,15 +71,16 @@
     "Gradle.s3 [:ru.bauman.seminar.Seminar3Application.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "sd/s10",
+    "git-widget-placeholder": "sd/s11",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/Admin/Desktop/bauman/sd/s3/src/test/java/ru/bauman/seminar/satellite/creator",
-    "last_opened_file_path": "C:/Users/Admin/Desktop/bauman/sd/s3",
+    "last_opened_file_path": "C:/Users/Admin/Desktop/bauman/sd/s3/telemetry-service",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -237,6 +241,9 @@
       <workItem from="1773218264679" duration="59000" />
       <workItem from="1775752272724" duration="644000" />
       <workItem from="1778827478031" duration="436000" />
+      <workItem from="1779971800008" duration="164000" />
+      <workItem from="1779972052918" duration="53000" />
+      <workItem from="1779972134918" duration="188000" />
     </task>
     <servers />
   </component>

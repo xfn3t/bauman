@@ -30,6 +30,9 @@ dependencies {
     implementation("io.grpc:grpc-stub:1.62.2")
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
 
+    // Kafka
+    implementation("org.springframework.kafka:spring-kafka")
+
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

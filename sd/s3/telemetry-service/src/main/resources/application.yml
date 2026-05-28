@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: telemetry-service
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
 
 grpc:
   server:

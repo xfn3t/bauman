@@ -16,14 +16,14 @@ spring:
       ddl-auto: validate
     show-sql: false
 
-grpc:
-  client:
-    telemetry-service:
-      address: static://telemetry-service:9091
-      negotiationType: plaintext
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      group-id: satellite-group
 
 logging:
   level:
     ru.bauman.seminar: INFO
     ru.bauman.seminar.telemetry: INFO
-    # org.hibernate.SQL: DEBUG

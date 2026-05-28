@@ -32,11 +32,12 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.liquibase:liquibase-core")
 
-	// gRPC Client
-	implementation("net.devh:grpc-client-spring-boot-starter:3.0.0.RELEASE")
+	// Protobuf (для десериализации Kafka-сообщений)
 	implementation("io.grpc:grpc-protobuf:1.62.2")
-	implementation("io.grpc:grpc-stub:1.62.2")
 	compileOnly("org.apache.tomcat:annotations-api:6.0.53")
+
+	// Kafka
+	implementation("org.springframework.kafka:spring-kafka")
 
 	// Lombok
 	compileOnly("org.projectlombok:lombok")
@@ -64,27 +65,12 @@ protobuf {
 	protoc {
 		artifact = "com.google.protobuf:protoc:3.25.3"
 	}
-	plugins {
-		create("grpc") {
-			artifact = "io.grpc:protoc-gen-grpc-java:1.62.2"
-		}
-	}
-	generateProtoTasks {
-		all().forEach { task ->
-			task.plugins {
-				create("grpc")
-			}
-		}
-	}
 }
 
 sourceSets {
 	main {
 		java {
-			srcDirs(
-				"build/generated/source/proto/main/java",
-				"build/generated/source/proto/main/grpc"
-			)
+			srcDirs("build/generated/source/proto/main/java")
 		}
 	}
 }

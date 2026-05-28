@@ -21,11 +21,12 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
-grpc:
-  client:
-    telemetry-service:
-      address: static://localhost:9091
-      negotiationType: plaintext
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      group-id: satellite-group
 
 logging:
   level:

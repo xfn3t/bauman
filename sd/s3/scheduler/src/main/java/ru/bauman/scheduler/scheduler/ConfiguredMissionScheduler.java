@@ -45,8 +45,4 @@ public class ConfiguredMissionScheduler {
         }
         log.info("Всего запланировано миссий: {}", properties.missions().size());
     }
-
-    private String key(MissionSchedulerProperties.MissionConfig cfg) {
-        return cfg.targetType() + "_" + cfg.constellationName() + "_" + cfg.satelliteName();
-    }
 }

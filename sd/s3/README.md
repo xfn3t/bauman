@@ -2,181 +2,144 @@
 
 ## 1. Общее описание
 
-Проект представляет собой backend-сервис для управления группировками искусственных спутников Земли. Система позволяет создавать группировки, добавлять в них спутники связи (Communication) и наблюдения (Imaging), активировать спутники и выполнять их целевые миссии (передача данных или съемка). Реализация выполнена на Java 21 с использованием Spring Boot и следует принципам SOLID и паттернам проектирования GoF.
+Backend-система для управления группировками искусственных спутников Земли. Позволяет создавать группировки, добавлять спутники связи и наблюдения, активировать их и выполнять целевые миссии. Реализация на Java 21, Spring Boot, следует принципам SOLID и паттернам GoF.
+
+Три микросервиса:
+- **satellite** - REST API управления спутниками и группировками
+- **scheduler** - планировщик миссий по cron-расписанию
+- **telemetry-service** - эмулятор телеметрии
 
 ## 2. Технологии
 
 - Java 21
 - Spring Boot 3.2 (Spring MVC, Spring Data JPA, Spring Validation, Spring AOP)
-- PostgreSQL (через Docker Compose)
-- Liquibase для управления схемой БД
-- Lombok
-- MapStruct для маппинга DTO
-- SpringDoc OpenAPI (Swagger) для документирования API
-- Docker / Docker Compose для контейнеризации
-- JUnit 5, MockMvc, Testcontainers для тестирования
+- PostgreSQL 15
+- Apache Kafka 3.8
+- gRPC + Protobuf
+- Liquibase
+- Lombok, MapStruct
+- SpringDoc OpenAPI
+- Feign + Outbox Transactional
+- Docker / Docker Compose
+- JUnit 5, MockMvc, Testcontainers
 
 ## 3. Архитектура
 
-Проект разделен на логические модули:
+### 3.1. satellite
 
-- `common` – общие утилиты, обработка исключений, базовые интерфейсы CRUD, AOP-аспекты.
-- `constellation` – модуль группировок:
-    - сущность `Constellation`
-    - репозиторий `ConstellationRepository` (JPA)
-    - сервисы: `ConstellationEntityService` (CRUD для сущности) и `ConstellationService` (бизнес-логика)
-    - контроллер `ConstellationController` с REST API
-- `satellite` – модуль спутников:
-    - иерархия сущностей: абстрактный `Satellite`, конкретные `CommunicationSatellite` и `ImagingSatellite`
-    - репозиторий `SatelliteRepository`
-    - сервисы: `SatelliteEntityService`, `SatelliteService`
-    - контроллер `SatelliteController`
-- `operations` – модуль высокоуровневых операций:
-    - `SpaceOperationCenterService` – фасад над всеми бизнес-сценариями
-    - `SpaceOperationCenterController` – REST API для фасада
+- `common` - общие утилиты, обработка исключений, CRUD-интерфейсы, AOP
+- `constellation` - сущность `Constellation`, репозиторий, сервисы, REST-контроллер
+- `satellite` - иерархия `Satellite` -> `CommunicationSatellite` / `ImagingSatellite`, репозиторий, сервисы, контроллер
+- `operations` - фасад `SpaceOperationCenterService`, контроллер миссий
+- `telemetry` - Kafka-консьюмер телеметрии
 
-## 4. Паттерны проектирования
+### 3.2. scheduler
 
-### 4.1. Порождающие паттерны (Creational)
+Планировщик, отправляющий миссии в satellite по cron-расписанию через Feign. Гарантия доставки - паттерн Outbox Transactional.
 
-**Factory Method** — создание спутников через `SatelliteFactory`. Каждый тип спутника имеет собственную фабрику (`CommunicationSatelliteFactory`, `ImagingSatelliteFactory`). `SatelliteCreationService` выбирает нужную фабрику по типу спутника.
+### 3.3. telemetry-service
+
+Эмулирует телеметрию 5 спутников. Каждые 2 секунды генерирует внутреннюю и внешнюю температуру, отправляет protobuf-сообщения `TelemetryUpdate` в Kafka topic `telemetry`. Дополнительно доступен gRPC Server Streaming на порту 9091.
+
+## 4. Взаимодействие сервисов
 
 ```
-SatelliteCreationService
-  ├── CommunicationSatelliteFactory  →  CommunicationSatellite
-  └── ImagingSatelliteFactory        →  ImagingSatellite
+telemetry-service - Kafka --> satellite
+scheduler - Feign/REST -> satellite
 ```
 
-**Builder** — построение сущностей `Constellation`, `EnergySystem` и DTO через builder-паттерн.
+- **Kafka**: telemetry-service пишет protobuf-сообщения в topic `telemetry`, satellite читает и обновляет спутники в БД
+- **Feign**: scheduler отправляет REST-запросы на выполнение миссий в satellite
 
-### 4.2. Структурные паттерны (Structural)
+## 5. Паттерны проектирования
 
-**Facade** — `SpaceOperationCenterService` скрывает сложность взаимодействия между `ConstellationService` и `SatelliteService`, предоставляя клиенту простой высокоуровневый API:
+### 5.1. Порождающие
 
-| Метод | Что скрывает |
-|---|---|
-| `addSatellites(request)` | findOrCreate группировки + цикл добавления спутников |
-| `executeMission(request)` | активация + фильтрация по типу + запуск миссий + агрегация |
-| `activateAndExecuteAll(name)` | активация всех спутников и запуск всех миссий |
-| `emergencyShutdown(name)` | деактивация всех спутников группировки |
-| `getSystemStatus()` | агрегированный статус по всем группировкам |
-| `getHealthReport()` | сводка критических и неактивных спутников |
+**Factory Method** - `SatelliteFactory` с реализациями для каждого типа спутника.
 
-**Decorator (через AOP)** — аннотация `@MeasureExecutionTime` замеряет время выполнения метода без изменения исходного кода. Spring AOP создает прокси-объект, оборачивающий аннотированный метод:
+**Builder** - `Constellation`, `EnergySystem`, DTO.
 
-```
-Клиент → Proxy (ExecutionTimeAspect) → реальный метод
-```
+### 5.2. Структурные
 
-Пример использования:
-```java
-@MeasureExecutionTime(operationName = "Активация всех спутников группировки")
-public List<SatelliteResponse> activateAllSatellites(Long constellationId) { ... }
-```
+**Facade** - `SpaceOperationCenterService` объединяет операции в высокоуровневый API.
 
-Пример вывода в консоль:
-```
-[TIMING] ⏱ Активация всех спутников группировки | Время выполнения: 38 мс
-```
+**Decorator** - `@MeasureExecutionTime` + AOP-аспект для замера времени методов.
 
-### 4.3. Поведенческие паттерны (Behavioral)
+### 5.3. Поведенческие
 
-**Strategy** — `SatelliteUpdater` определяет стратегию обновления спутника в зависимости от его типа. `CommunicationSatelliteUpdater` и `ImagingSatelliteUpdater` реализуют каждый свою стратегию.
+**Strategy** - `SatelliteUpdater` с разными стратегиями обновления.
 
-**Template Method** — абстрактный `Satellite` определяет шаблон поведения (активация, расход батареи, состояние), а конкретные классы реализуют метод `performMission()`.
+**Template Method** - `Satellite` задает шаблон поведения, подклассы реализуют `performMission()`.
 
-## 5. Принцип инверсии зависимостей (DIP)
+**Outbox Transactional** - гарантированная доставка сообщений из scheduler.
 
-Сервисы зависят от абстракций, а не от конкретных реализаций:
+## 6. Принцип инверсии зависимостей
 
-- `ConstellationService` зависит от `ConstellationEntityService` (интерфейс), а не от `ConstellationEntityServiceImpl`
-- `SatelliteServiceImpl` получает список всех `SatelliteFactory` через конструктор — добавление нового типа спутника не требует изменения кода сервиса
-- Репозитории спроектированы как интерфейсы, реализации предоставляет Spring Data JPA
-- Внедрение зависимостей осуществляется через конструктор (`@RequiredArgsConstructor`)
-
-## 6. Соответствие техническому заданию
-
-Требуемые методы и их аналоги в коде:
-
-| Требование ТЗ | Реализация |
-|---|---|
-| `createAndSaveConstellation(String name)` | `create(ConstellationRequest)` в `ConstellationService` |
-| `addSatelliteToConstellation(name, satellite)` | `addSatellite(Long id, SatelliteRequest)` |
-| `executeConstellationMission(name)` | `executeAllMissions(Long id)` |
-| `activateAllSatellites(name)` | `activateAllSatellites(Long id)` |
-| `showConstellationStatus(name)` | `getConstellationStatus(Long id)` и `getConstellationStatus(String name)` |
-
-Все операции также доступны через фасад `SpaceOperationCenterService`.
-
-### 6.1 Микросервисы
-
-В проекте реализовано 2 сервиса, один из них выступает в роли бекенд части для обработки поступающих данных. Второй сервис-планировщик отправляет заранее заданные в конфигурации данные с определенной периодичностью.
-
-Сервисы коммуницируют между собой средствами REST API при помощи Feign библиотеки входящей в Spring Cloud.
-
-Гарантия отправки и доставки сообщений из планировщика осуществляется средствами паттерна Outboxing Transactional
+- Сервисы зависят от интерфейсов, не от реализаций
+- `SatelliteFactory` внедряется списком - новый тип спутника добавляется без изменения кода
+- Репозитории - интерфейсы, реализации предоставляет Spring Data JPA
+- Внедрение через конструктор
 
 ## 7. Инициализация данных
 
-В классе `DataInitializer` (профиль `!test`) создаются тестовые группировки и спутники при старте приложения, если база пуста.
+При старте satellite создаются две группировки (Орбита-1, Орбита-2) с 5 спутниками и выполняется демонстрационный прогон миссий.
 
 ## 8. Сборка и запуск
 
-### 8.1. Через Docker Compose (рекомендуется)
+### 8.1. Docker Compose
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
-
-Поднимает три контейнера: PostgreSQL, pgAdmin (порт 5050, admin@bauman.ru / admin), приложение (порт 8080).
 
 Swagger UI: `http://localhost:8080/swagger-ui.html`
 
-```bash
-docker-compose down       # остановить
-docker-compose build app  # пересобрать образ
-```
+### 8.2. Локальный запуск
 
-### 8.2. Через Gradle (без Docker)
+Требует PostgreSQL и Kafka на localhost.
 
 ```bash
-./gradlew bootRun --args='--spring.profiles.active=local'
+cd satellite && ./gradlew bootRun --args='--spring.profiles.active=local'
+cd scheduler && ./gradlew bootRun --args='--spring.profiles.active=local'
+cd telemetry-service && ./gradlew bootRun
 ```
-
-Требует запущенного PostgreSQL и настроенного `application-local.yml`.
 
 ### 8.3. Профили Spring
 
 | Профиль | Назначение |
 |---|---|
-| `local` | Локальный запуск без Docker |
-| `docker` | Запуск внутри Docker-контейнера |
-| `test` | Автоматически активируется при тестах, использует Testcontainers |
+| `local` | БД и Kafka на localhost |
+| `docker` | Адреса во внутренней Docker-сети |
+| `test` | Тесты с Testcontainers |
 
-### 8.4. Переменные окружения
+### 8.4. Просмотр сообщений Kafka
 
-| Переменная | Описание |
-|---|---|
-| `SPRING_DATASOURCE_URL` | JDBC URL базы данных |
-| `SPRING_DATASOURCE_USERNAME` | Имя пользователя |
-| `SPRING_DATASOURCE_PASSWORD` | Пароль |
-| `SPRING_PROFILES_ACTIVE` | Активный профиль |
+```bash
+docker exec kafka sh -c "/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic telemetry --from-beginning"
+```
+
+Сообщения передаются в формате Protobuf, поэтому в консоли отображаются как бинарные данные. В логах satellite они выводятся в читаемом виде:
+
+```
+Связь-1 получил телеметрию: внутр. 21.51°C / внеш. -79.83°C
+```
+
+### 8.5. Порты
+
+| Сервис | REST | gRPC |
+|---|---|---|
+| satellite | 8080 | - |
+| scheduler | 8081 | - |
+| telemetry-service | 9092 | 9091 |
+| PostgreSQL | 5432 | - |
+| Kafka (внутри сети) | - | 9092 |
+| Kafka (localhost) | - | 9094 |
 
 ## 9. Тесты
 
 ```bash
 ./gradlew test
-```
-
-```bash
 ./gradlew test jacocoTestReport
 ```
 
-Отчет: `build/reports/tests/test/index.html`
-
-Отчет покрытия (JaCoCo): `build/reports/jacoco/test/html/index.html`
-
-В проекте реализованы:
-- Модульные тесты (Mockito) — `ConstellationServiceImplTest`, `SatelliteServiceImplTest`, `SatelliteFactoryTest`
-- Интеграционные тесты (Testcontainers + PostgreSQL) — `ConstellationIntegrationTest`, `SatelliteIntegrationTest`, `ConstellationRepositoryIntegrationTest`
-- MVC-тесты (MockMvc) — `ConstellationControllerTest`, `SatelliteControllerTest`
+Отчет покрытия: `build/reports/jacoco/test/html/index.html`
