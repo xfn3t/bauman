@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import ru.bauman.seminar.common.exception.dto.ErrorResponse;
 
 import java.util.stream.Collectors;
@@ -42,6 +43,15 @@ public class GlobalExceptionHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.body(ErrorResponse.of(HttpStatus.BAD_REQUEST, "Ошибка валидации: " + errorMessage));
 	}
+
+	@ExceptionHandler(NoResourceFoundException.class)
+	public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex) {
+		log.warn("Ресурс не найден: {}", ex.getMessage());
+		return ResponseEntity
+				.status(HttpStatus.NOT_FOUND)
+				.body(ErrorResponse.of(HttpStatus.NOT_FOUND, "Запрошенный ресурс не существует"));
+	}
+
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
