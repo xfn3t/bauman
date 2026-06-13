@@ -23,6 +23,7 @@ repositories {
 dependencies {
     // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // gRPC Server
     implementation("net.devh:grpc-server-spring-boot-starter:3.0.0.RELEASE")
@@ -32,6 +33,13 @@ dependencies {
 
     // Kafka
     implementation("org.springframework.kafka:spring-kafka")
+
+    // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
+    // Database
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.liquibase:liquibase-core")
 
     // Lombok
     compileOnly("org.projectlombok:lombok")

@@ -17,6 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import ru.bauman.telemetry.proto.TelemetryRequest;
 import ru.bauman.telemetry.proto.TelemetryServiceGrpc;
 import ru.bauman.telemetry.proto.TelemetryUpdate;
+import ru.bauman.telemetry.service.SatelliteRegistry;
 
 @Slf4j
 @GrpcService
@@ -26,15 +27,6 @@ public class TelemetryServiceImpl
 {
 
     private static final String TOPIC = "telemetry";
-
-    private static final List<String> SATELLITES = List.of(
-        "Связь-1",
-        "Связь-2",
-        "ДЗЗ-1",
-        "ДЗЗ-2",
-        "ДЗЗ-3"
-    );
-
     private static final double INTERNAL_TEMP_BASE = 22.0;
     private static final double INTERNAL_TEMP_AMPLITUDE = 5.0;
     private static final double EXTERNAL_TEMP_MIN = -150.0;
@@ -43,6 +35,7 @@ public class TelemetryServiceImpl
 
     private final Random random = new Random();
     private final KafkaTemplate<String, byte[]> kafkaTemplate;
+    private final SatelliteRegistry registry;
 
     private ScheduledExecutorService kafkaScheduler;
 
@@ -68,7 +61,7 @@ public class TelemetryServiceImpl
     private void sendToKafka() {
         try {
             long now = System.currentTimeMillis();
-            for (String name : SATELLITES) {
+            for (String name : registry.getAll()) {
                 double internal = generateInternalTemp();
                 double external = generateExternalTemp();
 
@@ -92,7 +85,6 @@ public class TelemetryServiceImpl
         }
     }
 
-
     @Override
     public void streamTelemetry(
         TelemetryRequest request,
@@ -104,9 +96,11 @@ public class TelemetryServiceImpl
             filter.isEmpty() ? "ВСЕ" : filter
         );
 
+        List<String> allSatellites = registry.getAll();
         List<String> targets = filter.isEmpty()
-            ? SATELLITES
-            : SATELLITES.stream()
+            ? allSatellites
+            : allSatellites
+                  .stream()
                   .filter(s -> s.equalsIgnoreCase(filter))
                   .toList();
 
