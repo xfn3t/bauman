@@ -143,3 +143,4 @@ docker exec kafka sh -c "/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-se
 ```
 
 Отчет покрытия: `build/reports/jacoco/test/html/index.html`
+
